@@ -8,20 +8,31 @@
 #include <avr/io.h>
 void delay_T_msec_timer1(volatile char choice);
 void wait(volatile int multiple, volatile char time_choice);
+void stepRight();
+void stepLeft();
+void step();
 
+static volatile int counter = 0;
 int main(void)
 {
-    //PC3 - step , PC2 - dir
+    //PC3 - step , PC1 - dir 1 is cw 0 is ccw
 	
 	DDRC = 0b11111111;
-	
+	PORTC = 0b00000000;
+	//PORTC &= ~(1 << PORTC2); //changing direction pin to step right by clearing pc2
     while (1) 
     {
-		PORTC = 0b11111111;
-		wait(10,2);
-		PORTC &= ~(1 << PORTC3);
-		wait(10,2);
+		for (int i = 0; i < 20; i++)
+		{
+			stepLeft();
+		}
+		wait(2000,2);
+		for (int i = 0; i < 20; i++){
+			stepRight();
+		}
+		
     }
+	return 0;
 }
 
 void wait(volatile int multiple, volatile char time_choice) {
@@ -81,4 +92,25 @@ void delay_T_msec_timer1(volatile char choice) {
 	//is cleared by writing a 1 to it)
 
 } // end delay_T_msec_timer1()
+
+void stepRight(){
+	counter++;
+	PORTC &= ~(1 << PORTC1); //changing direction to step right by clearing pc1
+	wait(5,2);
+	PORTC ^= 1 << PORTC3;
+	wait(50,2);
+	PORTC ^= 1 << PORTC3;
+	wait(50,2);
+}
+
+void stepLeft(){
+	counter--;
+	PORTC |= 1 << PORTC1; //changing directon pin to step left by setting pc1
+	wait(5,2);
+	PORTC ^= 1 << PORTC3;
+	wait(50,2);
+	PORTC ^= 1 << PORTC3;
+	wait(50,2);
+	
+}
 
