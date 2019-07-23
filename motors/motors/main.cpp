@@ -35,15 +35,15 @@ int main(void)
 	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
 
 	PORTD |= 1 << PORTD0;
-	PORTD |= 1 << PORTD3;
+	//PORTD |= 1 << PORTD3;
 	//PORTD &= ~(1 << PORTD5);
 	//PORTD &= ~(1 << PORTD6);					 
     
     //OCR0B = 155;
     while(1)
     {
-		OCR0A = 255;
-		OCR0B = 255;
+		//OCR0A = 255;
+		//OCR0B = 255;
 	    
     }
     
