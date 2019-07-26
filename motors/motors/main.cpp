@@ -13,42 +13,73 @@ volatile int i = 0;
 volatile int counter = 0;
 void delay_T_msec_timer1(volatile char choice);
 void wait(volatile int multiple, volatile char time_choice);
+void initialize_usart(void);
 
 int main(void)
 {
-	DDRD = 0b11111111;  // setting all of D to output
-	//PD0 = M2 Reverse - PD1 = M2 Forward - PD2 = M1 Forward - PD3 = M1 Reverse
-	PORTD = 0b11110000; // set all bits on PORTD so that all outputs are off and motors are off
+	DDRC = 0b11111111;  // setting all of D to output
+
+	//PC0 = M2 Reverse - PC1 = M2 Forward - PC2 = M1 Forward - PC3 = M1 Reverse
+	PORTC = 0b11110000; // set all bits on PORTC so that all outputs are off and motors are off
 	//(active low)
-	
+	DDRD = 0b11111110;
+	PORTD = 0b00000000;
+	//initialize_usart();
 	/*
 	EICRA = 0b00001010; //setting type of interrupt for INT1 and INT0 to falling
 	EIMSK = 0b00000011; //enabling both interrupts
 	sei();
 	*/
+	//volatile int data = 0;
 	
 	
 	OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
 	OCR0B = 0;
-	TCCR0A = 1<<COM0A1 | 0<<COM0A0 | 1<<COM0B1 | 0<<COM0B0 | 1<<WGM01 | 1<<WGM00;      // Set non-inverting mode on OC0A pin (COMA1:0 = 10; Fast PWM (WGM1:0 bits = bits 1:0 = 11) (Note that we are not affecting OC0B because COMB0:1 bits stay at default = 00)
+	TCCR0A = 1<<COM0A1 | 0<<COM0A0  | 1<<COM0B1 | 0<<COM0B0 | 1<<WGM01 | 1<<WGM00;      // Set non-inverting mode on OC0A pin (COMA1:0 = 10; Fast PWM (WGM1:0 bits = bits 1:0 = 11) (Note that we are not affecting OC0B because COMB0:1 bits stay at default = 00)
 	TCCR0B = 0<<CS02 | 1<<CS01 | 1<<CS00; // Set base PWM frequency (CS02:0 - bits 2-0 = 011 for prescaler of 64, for approximately 1kHz base frequency)
 	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
 
-	PORTD |= 1 << PORTD0;
-	//PORTD |= 1 << PORTD3;
+	PORTC |= 1 << PORTC0; //motor 2
+	//PORTC |= 1 << PORTC3; //motor 1
 	//PORTD &= ~(1 << PORTD5);
 	//PORTD &= ~(1 << PORTD6);					 
     
     //OCR0B = 155;
-    while(1)
+    while(1) //)
     {
-		//OCR0A = 255;
-		//OCR0B = 255;
+		OCR0B= 100;// motor 1
+		//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		//data = UDR0; // Read the data
+		
+		if (PIND==0b00000001)
+		{
+			PORTC &= ~(1 << PORTC0);
+			PORTC &= ~(1 << PORTC3);
+			//OCR0A = 20;
+			//OCR0B = 20;
+		}
+		else{
+			
+			PORTC |= 1 << PORTC0; 
+			PORTC |= 1 << PORTC3;
+			//OCR0A = 200;
+			//OCR0B = 200;
+			
+		}
+		
 	    
     }
     
     return(0);
 }//end of main
+
+void initialize_usart(void) // function to set up USART
+{
+	UCSR0B = (1<<RXEN0); // enable serial transmission
+	UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); // Asynchronous mode, 8-bit data; no parity; 1
+	//stop bit
+	UBRR0L = 0x67; // 9,600 baud if Fosc = 16MHz
+}
 
 /*
 int main(void)

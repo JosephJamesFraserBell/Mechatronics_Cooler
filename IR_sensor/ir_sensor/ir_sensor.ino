@@ -21,6 +21,8 @@ SharpIR SharpIR(IR, model);
 void setup() {
     // Sharp IR code for Robojax.com
  Serial.begin(9600);
+ pinMode(7, OUTPUT);
+ digitalWrite(7, LOW);
  //Serial.println("Robojax Sharp IR  ");
 }
 
@@ -41,5 +43,15 @@ void loop() {
  //Serial.print("Time taken (ms): ");
  //Serial.println(endTime);  
      // Sharp IR code for Robojax.com
+
+ if (dis < 60){
+  digitalWrite(7, HIGH);
+ }
+ else{
+  digitalWrite(7,LOW);
+  }
+ 
+  
+ 
      
 }

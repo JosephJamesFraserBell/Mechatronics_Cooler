@@ -3,29 +3,29 @@ motors.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000100  2**0
+  0 .data         00000000  00800100  00800100  0000010a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000ac  00000000  00000000  00000054  2**1
+  1 .text         000000b6  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000100  2**0
+  2 .comment      00000030  00000000  00000000  0000010a  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000130  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000013c  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000030  00000000  00000000  00000170  2**0
+  4 .debug_aranges 00000038  00000000  00000000  0000017c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000715  00000000  00000000  000001a0  2**0
+  5 .debug_info   0000072e  00000000  00000000  000001b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000647  00000000  00000000  000008b5  2**0
+  6 .debug_abbrev 00000660  00000000  00000000  000008e2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000238  00000000  00000000  00000efc  2**0
+  7 .debug_line   00000278  00000000  00000000  00000f42  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000064  00000000  00000000  00001134  2**2
+  8 .debug_frame  00000074  00000000  00000000  000011bc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003c4  00000000  00000000  00001198  2**0
+  9 .debug_str    00000411  00000000  00000000  00001230  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000103  00000000  00000000  0000155c  2**0
+ 10 .debug_loc    00000103  00000000  00000000  00001641  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  0000165f  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  00001744  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -80,47 +80,62 @@ Disassembly of section .text:
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
   84:	0e 94 48 00 	call	0x90	; 0x90 <main>
-  88:	0c 94 54 00 	jmp	0xa8	; 0xa8 <_exit>
+  88:	0c 94 59 00 	jmp	0xb2	; 0xb2 <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000090 <main>:
-void delay_T_msec_timer1(volatile char choice);
 void wait(volatile int multiple, volatile char time_choice);
+void initialize_usart(void);
 
 int main(void)
 {
-	DDRD = 0b11111111;  // setting all of D to output
+	DDRC = 0b11111111;  // setting all of D to output
   90:	8f ef       	ldi	r24, 0xFF	; 255
-  92:	8a b9       	out	0x0a, r24	; 10
-	//PD0 = M2 Reverse - PD1 = M2 Forward - PD2 = M1 Forward - PD3 = M1 Reverse
-	PORTD = 0b11110000; // set all bits on PORTD so that all outputs are off and motors are off
+  92:	87 b9       	out	0x07, r24	; 7
+
+	//PC0 = M2 Reverse - PC1 = M2 Forward - PC2 = M1 Forward - PC3 = M1 Reverse
+	PORTC = 0b11110000; // set all bits on PORTC so that all outputs are off and motors are off
   94:	80 ef       	ldi	r24, 0xF0	; 240
-  96:	8b b9       	out	0x0b, r24	; 11
-	EIMSK = 0b00000011; //enabling both interrupts
+  96:	88 b9       	out	0x08, r24	; 8
+	//(active low)
+	DDRD = 0b11111110;
+  98:	8e ef       	ldi	r24, 0xFE	; 254
+  9a:	8a b9       	out	0x0a, r24	; 10
+	PORTD = 0b00000000;
+  9c:	1b b8       	out	0x0b, r1	; 11
 	sei();
 	*/
+	//volatile int data = 0;
 	
 	
 	OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
-  98:	17 bc       	out	0x27, r1	; 39
+  9e:	17 bc       	out	0x27, r1	; 39
 	OCR0B = 0;
-  9a:	18 bc       	out	0x28, r1	; 40
-	TCCR0A = 1<<COM0A1 | 0<<COM0A0 | 1<<COM0B1 | 0<<COM0B0 | 1<<WGM01 | 1<<WGM00;      // Set non-inverting mode on OC0A pin (COMA1:0 = 10; Fast PWM (WGM1:0 bits = bits 1:0 = 11) (Note that we are not affecting OC0B because COMB0:1 bits stay at default = 00)
-  9c:	83 ea       	ldi	r24, 0xA3	; 163
-  9e:	84 bd       	out	0x24, r24	; 36
+  a0:	18 bc       	out	0x28, r1	; 40
+	TCCR0A = 1<<COM0A1 | 0<<COM0A0  | 1<<COM0B1 | 0<<COM0B0 | 1<<WGM01 | 1<<WGM00;      // Set non-inverting mode on OC0A pin (COMA1:0 = 10; Fast PWM (WGM1:0 bits = bits 1:0 = 11) (Note that we are not affecting OC0B because COMB0:1 bits stay at default = 00)
+  a2:	83 ea       	ldi	r24, 0xA3	; 163
+  a4:	84 bd       	out	0x24, r24	; 36
 	TCCR0B = 0<<CS02 | 1<<CS01 | 1<<CS00; // Set base PWM frequency (CS02:0 - bits 2-0 = 011 for prescaler of 64, for approximately 1kHz base frequency)
-  a0:	83 e0       	ldi	r24, 0x03	; 3
-  a2:	85 bd       	out	0x25, r24	; 37
+  a6:	83 e0       	ldi	r24, 0x03	; 3
+  a8:	85 bd       	out	0x25, r24	; 37
 	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
 
-	PORTD |= 1 << PORTD0;
-  a4:	58 9a       	sbi	0x0b, 0	; 11
-  a6:	ff cf       	rjmp	.-2      	; 0xa6 <main+0x16>
+	PORTC |= 1 << PORTC0; //motor 2
+  aa:	40 9a       	sbi	0x08, 0	; 8
+	//PORTD &= ~(1 << PORTD6);					 
+    
+    //OCR0B = 155;
+    while(1) //)
+    {
+		OCR0B= 100;// motor 1
+  ac:	84 e6       	ldi	r24, 0x64	; 100
+  ae:	88 bd       	out	0x28, r24	; 40
+  b0:	fe cf       	rjmp	.-4      	; 0xae <main+0x1e>
 
-000000a8 <_exit>:
-  a8:	f8 94       	cli
+000000b2 <_exit>:
+  b2:	f8 94       	cli
 
-000000aa <__stop_program>:
-  aa:	ff cf       	rjmp	.-2      	; 0xaa <__stop_program>
+000000b4 <__stop_program>:
+  b4:	ff cf       	rjmp	.-2      	; 0xb4 <__stop_program>
