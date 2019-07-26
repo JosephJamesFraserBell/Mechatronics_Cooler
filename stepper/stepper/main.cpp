@@ -1,34 +1,47 @@
+
 /*
- * stepper.cpp
+ * StepperSonarLocationTest.cpp
  *
- * Created: 7/20/2019 1:23:36 PM
- * Author : josep
+ * Created: 7/26/2019 3:46:14 PM
+ * Author : gabriel101
  */ 
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+
 void delay_T_msec_timer1(volatile char choice);
 void wait(volatile int multiple, volatile char time_choice);
-void stepRight();
-void stepLeft();
+int stepRight(int local_counter);
+int stepLeft(int local_counter);
 void step();
+volatile int counter = 0;
 
-static volatile int counter = 0;
 int main(void)
 {
     //PC3 - step , PC1 - dir 1 is cw 0 is ccw
 	
 	DDRC = 0b11111111;
-	PORTC = 0b00000000;
+	DDRD = 0b11110111;
+	PORTC = 0b00110100;
+	PORTD = 0b11110111;
+	EICRA = 0b00001000;
+	EIMSK = 1<<INT1;
+	sei();
+	
+	int local_counter = 0;
 	//PORTC &= ~(1 << PORTC2); //changing direction pin to step right by clearing pc2
     while (1) 
     {
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 800; i++)
 		{
-			stepLeft();
+			
+			local_counter = stepRight(local_counter);
+			counter = local_counter;
 		}
-		wait(2000,2);
-		for (int i = 0; i < 20; i++){
-			stepRight();
+
+		for (int i = 0; i < 800; i++){
+			local_counter = stepLeft(local_counter);
+			counter = local_counter;
 		}
 		
     }
@@ -93,24 +106,101 @@ void delay_T_msec_timer1(volatile char choice) {
 
 } // end delay_T_msec_timer1()
 
-void stepRight(){
-	counter++;
+ISR(INT1_vect) {
+	if (counter <= 264) {
+		PORTD = PORTD & 0b01111111;
+		wait(1000,2);
+	}
+	else if (counter <= 528) {
+		PORTD = PORTD & 0b10111111;
+		wait(1000,2);
+	}
+	else {
+		PORTD = PORTD & 0b11011111;
+		wait(1000,2);
+	}
+	PORTD = PORTD | 0b11110111;
+	//EIFR = EIFR | 1<<INTF1;
+
+}
+
+int stepRight(int counter_value){
+	int counter_right = counter_value + 1;
 	PORTC &= ~(1 << PORTC1); //changing direction to step right by clearing pc1
 	wait(5,2);
 	PORTC ^= 1 << PORTC3;
-	wait(50,2);
+	wait(1,1);
 	PORTC ^= 1 << PORTC3;
-	wait(50,2);
+	wait(1,1);
+	
+	return counter_right;
 }
 
-void stepLeft(){
-	counter--;
+int stepLeft(int counter_value){
+	int counter_left = counter_value - 1;
 	PORTC |= 1 << PORTC1; //changing directon pin to step left by setting pc1
 	wait(5,2);
 	PORTC ^= 1 << PORTC3;
-	wait(50,2);
+	wait(1,1);
 	PORTC ^= 1 << PORTC3;
-	wait(50,2);
+	wait(1,1);
 	
+	return counter_left;
 }
 
+void determineWheelRotation(int counter_value){
+	switch(counter_value) {
+		case counter_value <= 32:
+		break;
+		case counter_value <= 64:
+		break;
+		case counter_value <= 96:
+		break;
+		case counter_value <= 128:
+		break;
+		case counter_value <= 160:
+		break;
+		case counter_value <= 192:
+		break;
+		case counter_value <= 224:
+		break;
+		case counter_value <= 256:
+		break;
+		case counter_value <= 288:
+		break;
+		case counter_value <= 320:
+		break;
+		case counter_value <= 352:
+		break;
+		case counter_value <= 384:
+		break;
+		case counter_value <= 416:
+		break;
+		case counter_value <= 448:
+		break;
+		case counter_value <= 480:
+		break;
+		case counter_value <= 512:
+		break;
+		case counter_value <= 544:
+		break;
+		case counter_value <= 576:
+		break;
+		case counter_value <= 608:
+		break;
+		case counter_value <= 640:
+		break;
+		case counter_value <= 672:
+		break;
+		case counter_value <= 704:
+		break;
+		case counter_value <= 736:
+		break;
+		case counter_value <= 768:
+		break;
+		case counter_value <= 800:
+		break;
+		default: 
+		break;
+	}
+}
