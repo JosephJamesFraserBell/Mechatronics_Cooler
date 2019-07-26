@@ -1,0 +1,346 @@
+
+Sonar2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  0000021e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000001ca  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  0000021e  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000250  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000040  00000000  00000000  00000290  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000807  00000000  00000000  000002d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000706  00000000  00000000  00000ad7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000036b  00000000  00000000  000011dd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000cc  00000000  00000000  00001548  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000042c  00000000  00000000  00001614  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001fa  00000000  00000000  00001a40  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000030  00000000  00000000  00001c3a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 9e 00 	jmp	0x13c	; 0x13c <__vector_2>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 d5 00 	call	0x1aa	; 0x1aa <main>
+  78:	0c 94 e3 00 	jmp	0x1c6	; 0x1c6 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <_Z19delay_T_msec_timer1c>:
+		delay_T_msec_timer1(time_choice);
+		multiple--;
+	}
+}
+
+void delay_T_msec_timer1(volatile char choice) {
+  80:	cf 93       	push	r28
+  82:	df 93       	push	r29
+  84:	1f 92       	push	r1
+  86:	cd b7       	in	r28, 0x3d	; 61
+  88:	de b7       	in	r29, 0x3e	; 62
+  8a:	89 83       	std	Y+1, r24	; 0x01
+	//T = 0.125 msec for prescaler set to 8 and count of 250 (preload counter with 65,535?5)
+	//T = 1 msec for prescaler set to 64 and count of 250 (preload counter with 65,535?5)
+	//T = 4 msec for prescaler set to 256 and count of 250 (preload counter with 65,535?5)
+	//T = 16 msec for prescaler set to 1,024 and count of 250 (preload counter with 65,535?5)
+	//Default: T = .0156 msec for no prescaler and count of 250 (preload counter with 65,535?5)
+	TCCR1A = 0x00; // clears WGM00 and WGM01 (bits 0 and 1) to ensure Timer/Counter is in normal mode.
+  8c:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+	TCNT1 = 5; //Preload Timer1 register with 0 and count to 250
+  90:	85 e0       	ldi	r24, 0x05	; 5
+  92:	90 e0       	ldi	r25, 0x00	; 0
+  94:	90 93 85 00 	sts	0x0085, r25	; 0x800085 <__TEXT_REGION_LENGTH__+0x7e0085>
+  98:	80 93 84 00 	sts	0x0084, r24	; 0x800084 <__TEXT_REGION_LENGTH__+0x7e0084>
+	// ** Note that TCNT1 only addresses the Low byte of Timer1 register. To access the full register, must access low and high bytes (TCNT1L and TCNT1H).
+	switch ( choice ) { // choose prescaler
+  9c:	89 81       	ldd	r24, Y+1	; 0x01
+  9e:	82 30       	cpi	r24, 0x02	; 2
+  a0:	69 f0       	breq	.+26     	; 0xbc <_Z19delay_T_msec_timer1c+0x3c>
+  a2:	18 f4       	brcc	.+6      	; 0xaa <_Z19delay_T_msec_timer1c+0x2a>
+  a4:	81 30       	cpi	r24, 0x01	; 1
+  a6:	31 f0       	breq	.+12     	; 0xb4 <_Z19delay_T_msec_timer1c+0x34>
+  a8:	17 c0       	rjmp	.+46     	; 0xd8 <_Z19delay_T_msec_timer1c+0x58>
+  aa:	83 30       	cpi	r24, 0x03	; 3
+  ac:	59 f0       	breq	.+22     	; 0xc4 <_Z19delay_T_msec_timer1c+0x44>
+  ae:	84 30       	cpi	r24, 0x04	; 4
+  b0:	79 f0       	breq	.+30     	; 0xd0 <_Z19delay_T_msec_timer1c+0x50>
+  b2:	12 c0       	rjmp	.+36     	; 0xd8 <_Z19delay_T_msec_timer1c+0x58>
+		case 1:
+		TCCR1B = 1<<CS11;//TCCR1B = 0x02; // Start TIMER1, Normal mode, crystal clock, prescaler = 8
+  b4:	82 e0       	ldi	r24, 0x02	; 2
+  b6:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+  ba:	07 c0       	rjmp	.+14     	; 0xca <_Z19delay_T_msec_timer1c+0x4a>
+		case 2:
+		TCCR1B = 1<<CS11 | 1<<CS10;//TCCR1B = 0x03; // Start TIMER1, Normal mode, crystal clock, prescaler = 64
+  bc:	83 e0       	ldi	r24, 0x03	; 3
+  be:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+  c2:	03 c0       	rjmp	.+6      	; 0xca <_Z19delay_T_msec_timer1c+0x4a>
+		case 3:
+		TCCR1B = 1<<CS12;//TCCR1B = 0x04; // Start TIMER1, Normal mode, crystal clock, prescaler = 256
+  c4:	84 e0       	ldi	r24, 0x04	; 4
+  c6:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+		default:
+		TCCR1A = 1<<CS10;//TCCR1B = 0x01; Start TIMER1, Normal mode, crystal clock, no prescaler
+		break;
+	}
+	while (TCNT1 < 255){
+  ca:	e4 e8       	ldi	r30, 0x84	; 132
+  cc:	f0 e0       	ldi	r31, 0x00	; 0
+  ce:	08 c0       	rjmp	.+16     	; 0xe0 <_Z19delay_T_msec_timer1c+0x60>
+		break;
+		case 3:
+		TCCR1B = 1<<CS12;//TCCR1B = 0x04; // Start TIMER1, Normal mode, crystal clock, prescaler = 256
+		break;
+		case 4:
+		TCCR1B = 1<<CS12 | 1<<CS10;//TCCR1B = 0x05; // Start TIMER1, Normal mode, crystal clock, prescaler = 1024
+  d0:	85 e0       	ldi	r24, 0x05	; 5
+  d2:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+  d6:	f9 cf       	rjmp	.-14     	; 0xca <_Z19delay_T_msec_timer1c+0x4a>
+		default:
+		TCCR1A = 1<<CS10;//TCCR1B = 0x01; Start TIMER1, Normal mode, crystal clock, no prescaler
+  d8:	81 e0       	ldi	r24, 0x01	; 1
+  da:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+		break;
+  de:	f5 cf       	rjmp	.-22     	; 0xca <_Z19delay_T_msec_timer1c+0x4a>
+	}
+	while (TCNT1 < 255){
+  e0:	80 81       	ld	r24, Z
+  e2:	91 81       	ldd	r25, Z+1	; 0x01
+  e4:	8f 3f       	cpi	r24, 0xFF	; 255
+  e6:	91 05       	cpc	r25, r1
+  e8:	d8 f3       	brcs	.-10     	; 0xe0 <_Z19delay_T_msec_timer1c+0x60>
+	} // exits when count = 250
+	
+	TCCR1B = 0x00; // Stop TIMER1
+  ea:	10 92 81 00 	sts	0x0081, r1	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+	TIFR1 = 0x1<<TOV1; // Clear TOV1 (note that this is an odd bit in that it
+  ee:	81 e0       	ldi	r24, 0x01	; 1
+  f0:	86 bb       	out	0x16, r24	; 22
+	//is cleared by writing a 1 to it)
+} // end delay_T_msec_timer1()
+  f2:	0f 90       	pop	r0
+  f4:	df 91       	pop	r29
+  f6:	cf 91       	pop	r28
+  f8:	08 95       	ret
+
+000000fa <_Z4waitic>:
+	wait(500,2);
+	EIFR = EIFR | 1<<INTF1;
+}
+
+
+void wait(volatile int multiple, volatile char time_choice) {
+  fa:	cf 93       	push	r28
+  fc:	df 93       	push	r29
+  fe:	00 d0       	rcall	.+0      	; 0x100 <_Z4waitic+0x6>
+ 100:	1f 92       	push	r1
+ 102:	cd b7       	in	r28, 0x3d	; 61
+ 104:	de b7       	in	r29, 0x3e	; 62
+ 106:	9a 83       	std	Y+2, r25	; 0x02
+ 108:	89 83       	std	Y+1, r24	; 0x01
+ 10a:	6b 83       	std	Y+3, r22	; 0x03
+	while (multiple > 0) {
+ 10c:	89 81       	ldd	r24, Y+1	; 0x01
+ 10e:	9a 81       	ldd	r25, Y+2	; 0x02
+ 110:	18 16       	cp	r1, r24
+ 112:	19 06       	cpc	r1, r25
+ 114:	6c f4       	brge	.+26     	; 0x130 <_Z4waitic+0x36>
+		delay_T_msec_timer1(time_choice);
+ 116:	8b 81       	ldd	r24, Y+3	; 0x03
+ 118:	0e 94 40 00 	call	0x80	; 0x80 <_Z19delay_T_msec_timer1c>
+		multiple--;
+ 11c:	89 81       	ldd	r24, Y+1	; 0x01
+ 11e:	9a 81       	ldd	r25, Y+2	; 0x02
+ 120:	01 97       	sbiw	r24, 0x01	; 1
+ 122:	9a 83       	std	Y+2, r25	; 0x02
+ 124:	89 83       	std	Y+1, r24	; 0x01
+	EIFR = EIFR | 1<<INTF1;
+}
+
+
+void wait(volatile int multiple, volatile char time_choice) {
+	while (multiple > 0) {
+ 126:	89 81       	ldd	r24, Y+1	; 0x01
+ 128:	9a 81       	ldd	r25, Y+2	; 0x02
+ 12a:	18 16       	cp	r1, r24
+ 12c:	19 06       	cpc	r1, r25
+ 12e:	9c f3       	brlt	.-26     	; 0x116 <_Z4waitic+0x1c>
+		delay_T_msec_timer1(time_choice);
+		multiple--;
+	}
+}
+ 130:	0f 90       	pop	r0
+ 132:	0f 90       	pop	r0
+ 134:	0f 90       	pop	r0
+ 136:	df 91       	pop	r29
+ 138:	cf 91       	pop	r28
+ 13a:	08 95       	ret
+
+0000013c <__vector_2>:
+			wait(500,2);
+		}*/
+    }
+}
+
+ISR(INT1_vect) {
+ 13c:	1f 92       	push	r1
+ 13e:	0f 92       	push	r0
+ 140:	0f b6       	in	r0, 0x3f	; 63
+ 142:	0f 92       	push	r0
+ 144:	11 24       	eor	r1, r1
+ 146:	2f 93       	push	r18
+ 148:	3f 93       	push	r19
+ 14a:	4f 93       	push	r20
+ 14c:	5f 93       	push	r21
+ 14e:	6f 93       	push	r22
+ 150:	7f 93       	push	r23
+ 152:	8f 93       	push	r24
+ 154:	9f 93       	push	r25
+ 156:	af 93       	push	r26
+ 158:	bf 93       	push	r27
+ 15a:	ef 93       	push	r30
+ 15c:	ff 93       	push	r31
+	
+	PORTC = 0b00000000;
+ 15e:	18 b8       	out	0x08, r1	; 8
+	wait(500,2);
+ 160:	62 e0       	ldi	r22, 0x02	; 2
+ 162:	84 ef       	ldi	r24, 0xF4	; 244
+ 164:	91 e0       	ldi	r25, 0x01	; 1
+ 166:	0e 94 7d 00 	call	0xfa	; 0xfa <_Z4waitic>
+	PORTC = 0b00000001;
+ 16a:	81 e0       	ldi	r24, 0x01	; 1
+ 16c:	88 b9       	out	0x08, r24	; 8
+	wait(500,2);
+ 16e:	62 e0       	ldi	r22, 0x02	; 2
+ 170:	84 ef       	ldi	r24, 0xF4	; 244
+ 172:	91 e0       	ldi	r25, 0x01	; 1
+ 174:	0e 94 7d 00 	call	0xfa	; 0xfa <_Z4waitic>
+	EIFR = EIFR | 1<<INTF1;
+ 178:	e1 9a       	sbi	0x1c, 1	; 28
+}
+ 17a:	ff 91       	pop	r31
+ 17c:	ef 91       	pop	r30
+ 17e:	bf 91       	pop	r27
+ 180:	af 91       	pop	r26
+ 182:	9f 91       	pop	r25
+ 184:	8f 91       	pop	r24
+ 186:	7f 91       	pop	r23
+ 188:	6f 91       	pop	r22
+ 18a:	5f 91       	pop	r21
+ 18c:	4f 91       	pop	r20
+ 18e:	3f 91       	pop	r19
+ 190:	2f 91       	pop	r18
+ 192:	0f 90       	pop	r0
+ 194:	0f be       	out	0x3f, r0	; 63
+ 196:	0f 90       	pop	r0
+ 198:	1f 90       	pop	r1
+ 19a:	18 95       	reti
+
+0000019c <_Z9sendPulsev>:
+	TIFR1 = 0x1<<TOV1; // Clear TOV1 (note that this is an odd bit in that it
+	//is cleared by writing a 1 to it)
+} // end delay_T_msec_timer1()
+
+void sendPulse(){
+	PORTB = 0b00000001;
+ 19c:	81 e0       	ldi	r24, 0x01	; 1
+ 19e:	85 b9       	out	0x05, r24	; 5
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1a0:	85 e0       	ldi	r24, 0x05	; 5
+ 1a2:	8a 95       	dec	r24
+ 1a4:	f1 f7       	brne	.-4      	; 0x1a2 <_Z9sendPulsev+0x6>
+	_delay_us(15);
+	PORTB = 0b00000000;
+ 1a6:	15 b8       	out	0x05, r1	; 5
+ 1a8:	08 95       	ret
+
+000001aa <main>:
+void wait(volatile int multiple, volatile char time_choice);
+void sendPulse();
+
+int main(void)
+{
+    DDRC = 0b00000001;
+ 1aa:	81 e0       	ldi	r24, 0x01	; 1
+ 1ac:	87 b9       	out	0x07, r24	; 7
+	DDRB = 0b00000001;
+ 1ae:	84 b9       	out	0x04, r24	; 4
+	PORTB = 0b00000000;
+ 1b0:	15 b8       	out	0x05, r1	; 5
+    PORTC = 0b00000001;
+ 1b2:	88 b9       	out	0x08, r24	; 8
+	EICRA = 0b00001010;
+ 1b4:	8a e0       	ldi	r24, 0x0A	; 10
+ 1b6:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7e0069>
+	EIMSK = 0b00000011;
+ 1ba:	83 e0       	ldi	r24, 0x03	; 3
+ 1bc:	8d bb       	out	0x1d, r24	; 29
+	sei();
+ 1be:	78 94       	sei
+	
+    while (1) 
+    {
+		sendPulse();
+ 1c0:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z9sendPulsev>
+ 1c4:	fd cf       	rjmp	.-6      	; 0x1c0 <main+0x16>
+
+000001c6 <_exit>:
+ 1c6:	f8 94       	cli
+
+000001c8 <__stop_program>:
+ 1c8:	ff cf       	rjmp	.-2      	; 0x1c8 <__stop_program>
