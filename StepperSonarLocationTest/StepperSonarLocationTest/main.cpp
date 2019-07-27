@@ -9,18 +9,28 @@
 #include <avr/interrupt.h>
 
 void delay_T_msec_timer1(volatile char choice);
+void initialize_usart(); // function to set up USART
 void wait(volatile int multiple, volatile char time_choice);
+// ADD ANOTHER WAIT FUNCTION FOR THE LID
 int stepRight(int local_counter);
 int stepLeft(int local_counter);
-void step();
+//TRANSMITTED VALUE 
+// < 35 will be for the normal function (Go)
+// 35 < x < 105 will be for the cooler to open the lid and stop everything
+// Anything transmitted above 105 and less than 175 will be for the cooler to open the lid and stop everything
+// Anything transmitted above 175 will be the kill switch 
+
 volatile int counter = 0;
+unsigned char ButtonValue;
 
 int main(void)
 {
     //PC3 - step , PC1 - dir 1 is cw 0 is ccw
 	
+	DDRB = 0b11111111;
 	DDRC = 0b11111111;
 	DDRD = 0b11110111;
+	PORTB = 0b1111101; // PB1-4 will be the lights to test the buttons
 	PORTC = 0b00110100;
 	PORTD = 0b11110111;
 	EICRA = 0b00001000;
@@ -28,38 +38,100 @@ int main(void)
 	sei();
 	
 	int local_counter = 0;
-	//PORTC &= ~(1 << PORTC2); //changing direction pin to step right by clearing pc2
+	initialize_usart(); // Initialize the USART with desired parameters
     while (1) 
     {
-		for (int i = 0; i < 800; i++)
-		{
-			
-			local_counter = stepRight(local_counter);
-			counter = local_counter;
-		}
-
-		for (int i = 0; i < 800; i++){
-			local_counter = stepLeft(local_counter);
-			counter = local_counter;
-		}
+		//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		ButtonValue = UDR0; // Read the data
 		
+		//while (ButtonValue <= 35) {
+			for (int i = 0; i < 800; i++)
+			{
+				// THIS IS TO GET THE STEPPER MOTOR TO PAN TO THE RIGHT
+				local_counter = stepRight(local_counter);
+				counter = local_counter;
+
+				
+				// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+				//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+				ButtonValue = UDR0; // Read the data
+				ButtonValue = 20;
+				
+				// PERFORM ACTION DEPENDING ON WHAT VALUE WAS RECIEVED FROM THE WIRELESS TRANSMITTER
+				if (ButtonValue <= 35){
+					PORTB = 0b11111101;
+				}
+				while (ButtonValue > 35 && ButtonValue <= 105) {
+					PORTB = 0b11111011;
+					
+					// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+					//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+					ButtonValue = UDR0; // Read the data
+				}
+				if (ButtonValue > 105 && ButtonValue <= 175) {
+					PORTB = 0b11110111;
+				}
+				while (ButtonValue >= 175) {
+					PORTB = 0b11101111;
+					
+					//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+					ButtonValue = UDR0; // Read the data
+				}
+				
+				
+			}
+
+			for (int i = 0; i < 800; i++){
+				// THIS IS TO GET THE STEPPER MOTOR TO PAN TO THE LEFT
+				local_counter = stepLeft(local_counter);
+				counter = local_counter;
+				
+				// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+				//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+				ButtonValue = UDR0; // Read the data
+				
+				// PERFORM ACTION DEPENDING ON WHAT VALUE WAS RECIEVED FROM THE WIRELESS TRANSMITTER
+				if (ButtonValue <= 35){
+					PORTB = 0b11111101;
+				}
+				while (ButtonValue > 35 && ButtonValue <= 105) {
+					PORTB = 0b11111011;
+					
+					// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+					while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+					ButtonValue = UDR0; // Read the data
+				}
+				if (ButtonValue > 105 && ButtonValue <= 175) {
+					PORTB = 0b11110111;
+				}
+				while (ButtonValue >= 175) {
+					PORTB = 0b11101111;
+					
+					while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+					ButtonValue = UDR0; // Read the data
+				}
+			}
+	//	}
     }
 	return 0;
 }
 
-void wait(volatile int multiple, volatile char time_choice) {
-/* This subroutine calls others to create a delay.
-   Total delay = multiple*T, where T is in msec and is the delay
-created by the called function.
-    Inputs: multiple = number of multiples to delay, where multiple is
-the number of times an actual delay loop is called.
-    Outputs: None
-*/
-while (multiple > 0) {
-    delay_T_msec_timer1(time_choice);
-    multiple--;
+// Function to recieve the data
+void initialize_usart(void) // function to set up USART
+{
+	UCSR0B = (1<<RXEN0); // enable serial transmission
+	UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); // Asynchronous mode, 8-bit data; no parity; 1 stop bit
+	UBRR0L = 0x67; // 9,600 baud if Fosc = 16MHz
 }
-} // end wait()
+
+void wait(volatile int multiple, volatile char time_choice) {
+	while (multiple > 0) {
+		delay_T_msec_timer1(time_choice);
+		if (ButtonValue > 32)
+			multiple = 0;
+		multiple--;
+	}
+}
 void delay_T_msec_timer1(volatile char choice) {
 	//
 	// ***Note that since the Timer1 register is 16 bits, the delays can be much higher than shown here.
