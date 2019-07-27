@@ -3,39 +3,39 @@ SonarAndWirelessTransmission.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000001c4  2**0
+  0 .data         00000000  00800100  00800100  0000033a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000150  00000000  00000000  00000074  2**1
+  1 .text         000002c6  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000003  00800100  00800100  000001c4  2**0
+  2 .bss          00000003  00800100  00800100  0000033a  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000001c4  2**0
+  3 .comment      00000030  00000000  00000000  0000033a  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001f4  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000036c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000058  00000000  00000000  00000234  2**0
+  5 .debug_aranges 00000058  00000000  00000000  000003ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000862  00000000  00000000  0000028c  2**0
+  6 .debug_info   000008a9  00000000  00000000  00000404  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000071b  00000000  00000000  00000aee  2**0
+  7 .debug_abbrev 00000734  00000000  00000000  00000cad  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003f7  00000000  00000000  00001209  2**0
+  8 .debug_line   00000457  00000000  00000000  000013e1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000d8  00000000  00000000  00001600  2**2
+  9 .debug_frame  00000144  00000000  00000000  00001838  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000004d4  00000000  00000000  000016d8  2**0
+ 10 .debug_str    000004d4  00000000  00000000  0000197c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000001b4  00000000  00000000  00001bac  2**0
+ 11 .debug_loc    000002c5  00000000  00000000  00001e50  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000048  00000000  00000000  00001d60  2**0
+ 12 .debug_ranges 00000048  00000000  00000000  00002115  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
-   4:	0c 94 48 00 	jmp	0x90	; 0x90 <__vector_1>
-   8:	0c 94 66 00 	jmp	0xcc	; 0xcc <__vector_2>
+   4:	0c 94 e6 00 	jmp	0x1cc	; 0x1cc <__vector_1>
+   8:	0c 94 23 01 	jmp	0x246	; 0x246 <__vector_2>
    c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   14:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
@@ -81,132 +81,474 @@ Disassembly of section .text:
   7e:	a3 30       	cpi	r26, 0x03	; 3
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
-  84:	0e 94 95 00 	call	0x12a	; 0x12a <main>
-  88:	0c 94 a6 00 	jmp	0x14c	; 0x14c <_exit>
+  84:	0e 94 61 00 	call	0xc2	; 0xc2 <main>
+  88:	0c 94 61 01 	jmp	0x2c2	; 0x2c2 <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000090 <__vector_1>:
+00000090 <_Z9sendPulsev>:
+
+	EIFR = EIFR | 1<<INTF1;
+}
+
+void sendPulse() {
+	PORTC = 0b00000001;
+  90:	81 e0       	ldi	r24, 0x01	; 1
+  92:	88 b9       	out	0x08, r24	; 8
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  94:	85 e0       	ldi	r24, 0x05	; 5
+  96:	8a 95       	dec	r24
+  98:	f1 f7       	brne	.-4      	; 0x96 <_Z9sendPulsev+0x6>
+	_delay_us(15);
+	PORTC = 0b00000000;
+  9a:	18 b8       	out	0x08, r1	; 8
+  9c:	08 95       	ret
+
+0000009e <_Z16initialize_usartv>:
+}
 // Function to transmit the data
 void initialize_usart(void) // function to set up USART
 {
 	UCSR0B = (1<<TXEN0); // enable serial transmission
+  9e:	88 e0       	ldi	r24, 0x08	; 8
+  a0:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7e00c1>
 	UCSR0C = (1<<UCSZ01) | (1<<UCSZ00) ; // Asynchronous mode, 8-bit data; no parity; 1 stop bit
+  a4:	86 e0       	ldi	r24, 0x06	; 6
+  a6:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7e00c2>
 	UBRR0L = 0x67; // 9,600 baud if Fosc = 16MHz
-  90:	1f 92       	push	r1
-  92:	0f 92       	push	r0
-  94:	0f b6       	in	r0, 0x3f	; 63
-  96:	0f 92       	push	r0
-  98:	11 24       	eor	r1, r1
-  9a:	8f 93       	push	r24
-  9c:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <counter>
-  a0:	8f 5f       	subi	r24, 0xFF	; 255
-  a2:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <counter>
-  a6:	82 30       	cpi	r24, 0x02	; 2
-  a8:	28 f0       	brcs	.+10     	; 0xb4 <__vector_1+0x24>
-  aa:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <counter>
-  ae:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <ButtonValue>
-  b2:	05 c0       	rjmp	.+10     	; 0xbe <__vector_1+0x2e>
-  b4:	81 30       	cpi	r24, 0x01	; 1
-  b6:	19 f4       	brne	.+6      	; 0xbe <__vector_1+0x2e>
-  b8:	8e eb       	ldi	r24, 0xBE	; 190
-  ba:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
-  be:	e0 9a       	sbi	0x1c, 0	; 28
-  c0:	8f 91       	pop	r24
-  c2:	0f 90       	pop	r0
-  c4:	0f be       	out	0x3f, r0	; 63
-  c6:	0f 90       	pop	r0
-  c8:	1f 90       	pop	r1
-  ca:	18 95       	reti
+  aa:	87 e6       	ldi	r24, 0x67	; 103
+  ac:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7e00c4>
+  b0:	08 95       	ret
 
-000000cc <__vector_2>:
-  cc:	1f 92       	push	r1
-  ce:	0f 92       	push	r0
-  d0:	0f b6       	in	r0, 0x3f	; 63
-  d2:	0f 92       	push	r0
-  d4:	11 24       	eor	r1, r1
-  d6:	8f 93       	push	r24
-  d8:	9f 93       	push	r25
-  da:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
-  de:	8f 5f       	subi	r24, 0xFF	; 255
-  e0:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
-  e4:	82 30       	cpi	r24, 0x02	; 2
-  e6:	28 f0       	brcs	.+10     	; 0xf2 <__vector_2+0x26>
-  e8:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <counter>
-  ec:	96 e4       	ldi	r25, 0x46	; 70
-  ee:	90 93 02 01 	sts	0x0102, r25	; 0x800102 <ButtonValue>
-  f2:	81 30       	cpi	r24, 0x01	; 1
-  f4:	19 f4       	brne	.+6      	; 0xfc <__vector_2+0x30>
-  f6:	8c e8       	ldi	r24, 0x8C	; 140
-  f8:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
-  fc:	e1 9a       	sbi	0x1c, 1	; 28
-  fe:	9f 91       	pop	r25
- 100:	8f 91       	pop	r24
- 102:	0f 90       	pop	r0
- 104:	0f be       	out	0x3f, r0	; 63
- 106:	0f 90       	pop	r0
- 108:	1f 90       	pop	r1
- 10a:	18 95       	reti
-
-0000010c <_Z9sendPulsev>:
- 10c:	81 e0       	ldi	r24, 0x01	; 1
- 10e:	88 b9       	out	0x08, r24	; 8
- 110:	85 e0       	ldi	r24, 0x05	; 5
- 112:	8a 95       	dec	r24
- 114:	f1 f7       	brne	.-4      	; 0x112 <_Z9sendPulsev+0x6>
- 116:	18 b8       	out	0x08, r1	; 8
- 118:	08 95       	ret
-
-0000011a <_Z19transmit_data_usarth>:
+000000b2 <_Z19transmit_data_usarth>:
 }
 
 void transmit_data_usart(unsigned char x) // Function to transmit a character
 {
 	while (!(UCSR0A & (1<<UDRE0))); // Poll to make sure transmit buffer is ready,
- 11a:	e0 ec       	ldi	r30, 0xC0	; 192
- 11c:	f0 e0       	ldi	r31, 0x00	; 0
- 11e:	90 81       	ld	r25, Z
- 120:	95 ff       	sbrs	r25, 5
- 122:	fd cf       	rjmp	.-6      	; 0x11e <_Z19transmit_data_usarth+0x4>
+  b2:	e0 ec       	ldi	r30, 0xC0	; 192
+  b4:	f0 e0       	ldi	r31, 0x00	; 0
+  b6:	90 81       	ld	r25, Z
+  b8:	95 ff       	sbrs	r25, 5
+  ba:	fd cf       	rjmp	.-6      	; 0xb6 <_Z19transmit_data_usarth+0x4>
 	// then send data
 	UDR0 = x;
- 124:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
- 128:	08 95       	ret
+  bc:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+  c0:	08 95       	ret
 
-0000012a <main>:
-unsigned char counter = 0; // This will be used in INT0
-unsigned char counter2 = 0; // This will be used in INT1
+000000c2 <main>:
+volatile char counter = 0; // This will be used in INT0
+volatile char counter2 = 0; // This will be used in INT1
 
 int main(void)
 {
+	DDRB = 0b11111111;
+  c2:	9f ef       	ldi	r25, 0xFF	; 255
+  c4:	94 b9       	out	0x04, r25	; 4
 	DDRC = 0b00000001;
- 12a:	81 e0       	ldi	r24, 0x01	; 1
- 12c:	87 b9       	out	0x07, r24	; 7
+  c6:	81 e0       	ldi	r24, 0x01	; 1
+  c8:	87 b9       	out	0x07, r24	; 7
 	DDRD = 0b00000000;
- 12e:	1a b8       	out	0x0a, r1	; 10
+  ca:	1a b8       	out	0x0a, r1	; 10
+	PORTB = 0b11111111;
+  cc:	95 b9       	out	0x05, r25	; 5
 	PORTC = 0b00000001;
- 130:	88 b9       	out	0x08, r24	; 8
+  ce:	88 b9       	out	0x08, r24	; 8
 	EICRA = 0b00001010;
- 132:	8a e0       	ldi	r24, 0x0A	; 10
- 134:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7e0069>
+  d0:	8a e0       	ldi	r24, 0x0A	; 10
+  d2:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7e0069>
 	EIMSK = 1<<INT0 | 1<<INT1;
- 138:	83 e0       	ldi	r24, 0x03	; 3
- 13a:	8d bb       	out	0x1d, r24	; 29
+  d6:	83 e0       	ldi	r24, 0x03	; 3
+  d8:	8d bb       	out	0x1d, r24	; 29
 	sei();
- 13c:	78 94       	sei
-
+  da:	78 94       	sei
+	TCCR0B = 0<<CS02 | 1<<CS01 | 1<<CS00; // Set base PWM frequency (CS02:0 - bits 2-0 = 011 for prescaler of 64, for approximately 1kHz base frequency)
+	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
+*/
+	
+	//int local_button = 0;
+	initialize_usart(); // Initialize the USART with desired parameters
+  dc:	0e 94 4f 00 	call	0x9e	; 0x9e <_Z16initialize_usartv>
+		}
+		else if (ButtonValue == 140) {
+			PORTB = 0b11110111;
+		}
+		else if (ButtonValue == 190) {
+			PORTB = 0b11101111;
+  e0:	0f ee       	ldi	r16, 0xEF	; 239
+		}
+		else if (ButtonValue == 70) {
+			PORTB = 0b11111011;
+		}
+		else if (ButtonValue == 140) {
+			PORTB = 0b11110111;
+  e2:	17 ef       	ldi	r17, 0xF7	; 247
+		// TEST
+		if (ButtonValue == 0) {
+			PORTB = 0b11111101;
+		}
+		else if (ButtonValue == 70) {
+			PORTB = 0b11111011;
+  e4:	db ef       	ldi	r29, 0xFB	; 251
+		sendPulse();
+		transmit_data_usart(ButtonValue);
+		
+		// TEST
+		if (ButtonValue == 0) {
+			PORTB = 0b11111101;
+  e6:	cd ef       	ldi	r28, 0xFD	; 253
+	
+	//int local_button = 0;
+	initialize_usart(); // Initialize the USART with desired parameters
     while (1) 
     {
 		sendPulse();
- 13e:	0e 94 86 00 	call	0x10c	; 0x10c <_Z9sendPulsev>
+  e8:	0e 94 48 00 	call	0x90	; 0x90 <_Z9sendPulsev>
 		transmit_data_usart(ButtonValue);
- 142:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <ButtonValue>
- 146:	0e 94 8d 00 	call	0x11a	; 0x11a <_Z19transmit_data_usarth>
- 14a:	f9 cf       	rjmp	.-14     	; 0x13e <main+0x14>
+  ec:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <ButtonValue>
+  f0:	0e 94 59 00 	call	0xb2	; 0xb2 <_Z19transmit_data_usarth>
+		
+		// TEST
+		if (ButtonValue == 0) {
+  f4:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <ButtonValue>
+  f8:	81 11       	cpse	r24, r1
+  fa:	02 c0       	rjmp	.+4      	; 0x100 <main+0x3e>
+			PORTB = 0b11111101;
+  fc:	c5 b9       	out	0x05, r28	; 5
+  fe:	f4 cf       	rjmp	.-24     	; 0xe8 <main+0x26>
+		}
+		else if (ButtonValue == 70) {
+ 100:	86 34       	cpi	r24, 0x46	; 70
+ 102:	11 f4       	brne	.+4      	; 0x108 <main+0x46>
+			PORTB = 0b11111011;
+ 104:	d5 b9       	out	0x05, r29	; 5
+ 106:	f0 cf       	rjmp	.-32     	; 0xe8 <main+0x26>
+		}
+		else if (ButtonValue == 140) {
+ 108:	8c 38       	cpi	r24, 0x8C	; 140
+ 10a:	11 f4       	brne	.+4      	; 0x110 <main+0x4e>
+			PORTB = 0b11110111;
+ 10c:	15 b9       	out	0x05, r17	; 5
+ 10e:	ec cf       	rjmp	.-40     	; 0xe8 <main+0x26>
+		}
+		else if (ButtonValue == 190) {
+ 110:	8e 3b       	cpi	r24, 0xBE	; 190
+ 112:	51 f7       	brne	.-44     	; 0xe8 <main+0x26>
+			PORTB = 0b11101111;
+ 114:	05 b9       	out	0x05, r16	; 5
+ 116:	e8 cf       	rjmp	.-48     	; 0xe8 <main+0x26>
 
-0000014c <_exit>:
- 14c:	f8 94       	cli
+00000118 <_Z19delay_T_msec_timer1c>:
+		delay_T_msec_timer1(time_choice);
+		multiple--;
+	}
+}
 
-0000014e <__stop_program>:
- 14e:	ff cf       	rjmp	.-2      	; 0x14e <__stop_program>
+void delay_T_msec_timer1(volatile char choice) {
+ 118:	cf 93       	push	r28
+ 11a:	df 93       	push	r29
+ 11c:	1f 92       	push	r1
+ 11e:	cd b7       	in	r28, 0x3d	; 61
+ 120:	de b7       	in	r29, 0x3e	; 62
+ 122:	89 83       	std	Y+1, r24	; 0x01
+	//Default: T = .0156 msec for no prescaler and count of 250 (preload counter with 65,535-5)
+
+	//Inputs: None
+	//Outputs: None
+
+	TCCR1A = 0x00; // clears WGM00 and WGM01 (bits 0 and 1) to ensure Timer/Counter is in normal mode.
+ 124:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+	TCNT1 = 0;  // preload load TIMER1 with 5 if counting to 255 (count must reach 65,535-5 = 250)
+ 128:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x7e0085>
+ 12c:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x7e0084>
+	// or preload with 0 and count to 250
+
+	switch ( choice ) { // choose prescaler
+ 130:	89 81       	ldd	r24, Y+1	; 0x01
+ 132:	82 30       	cpi	r24, 0x02	; 2
+ 134:	69 f0       	breq	.+26     	; 0x150 <_Z19delay_T_msec_timer1c+0x38>
+ 136:	18 f4       	brcc	.+6      	; 0x13e <_Z19delay_T_msec_timer1c+0x26>
+ 138:	81 30       	cpi	r24, 0x01	; 1
+ 13a:	31 f0       	breq	.+12     	; 0x148 <_Z19delay_T_msec_timer1c+0x30>
+ 13c:	17 c0       	rjmp	.+46     	; 0x16c <_Z19delay_T_msec_timer1c+0x54>
+ 13e:	83 30       	cpi	r24, 0x03	; 3
+ 140:	59 f0       	breq	.+22     	; 0x158 <_Z19delay_T_msec_timer1c+0x40>
+ 142:	84 30       	cpi	r24, 0x04	; 4
+ 144:	79 f0       	breq	.+30     	; 0x164 <_Z19delay_T_msec_timer1c+0x4c>
+ 146:	12 c0       	rjmp	.+36     	; 0x16c <_Z19delay_T_msec_timer1c+0x54>
+		case 1:
+		TCCR1B = 1<<CS11;//TCCR1B = 0x02; // Start TIMER1, Normal mode, crystal clock, prescaler = 8
+ 148:	82 e0       	ldi	r24, 0x02	; 2
+ 14a:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+ 14e:	07 c0       	rjmp	.+14     	; 0x15e <_Z19delay_T_msec_timer1c+0x46>
+		case 2:
+		TCCR1B =  1<<CS11 | 1<<CS10;//TCCR1B = 0x03;  // Start TIMER1, Normal mode, crystal clock, prescaler = 64
+ 150:	83 e0       	ldi	r24, 0x03	; 3
+ 152:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+ 156:	03 c0       	rjmp	.+6      	; 0x15e <_Z19delay_T_msec_timer1c+0x46>
+		case 3:
+		TCCR1B = 1<<CS12;//TCCR1B = 0x04; // Start TIMER1, Normal mode, crystal clock, prescaler = 256
+ 158:	84 e0       	ldi	r24, 0x04	; 4
+ 15a:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+	}
+
+	//while ((TIFR1 & (0x1<<TOV1)) == 0); // wait for TOV1 to roll over at 255 (requires preload of 65,535-5 to make count = 250)
+	// How does this while loop work?? See notes
+	while (TCNT1 < 0xfa); // exits when count = 250 (requires preload of 0 to make count = 250)
+ 15e:	e4 e8       	ldi	r30, 0x84	; 132
+ 160:	f0 e0       	ldi	r31, 0x00	; 0
+ 162:	08 c0       	rjmp	.+16     	; 0x174 <_Z19delay_T_msec_timer1c+0x5c>
+		break;
+		case 3:
+		TCCR1B = 1<<CS12;//TCCR1B = 0x04; // Start TIMER1, Normal mode, crystal clock, prescaler = 256
+		break;
+		case 4:
+		TCCR1B = 1<<CS12 | 1<<CS10;//TCCR1B = 0x05; // Start TIMER1, Normal mode, crystal clock, prescaler = 1024
+ 164:	85 e0       	ldi	r24, 0x05	; 5
+ 166:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		break;
+ 16a:	f9 cf       	rjmp	.-14     	; 0x15e <_Z19delay_T_msec_timer1c+0x46>
+		default:
+		TCCR1A = 1<<CS10;//TCCR1B = 0x01; Start TIMER1, Normal mode, crystal clock, no prescaler
+ 16c:	81 e0       	ldi	r24, 0x01	; 1
+ 16e:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+		break;
+ 172:	f5 cf       	rjmp	.-22     	; 0x15e <_Z19delay_T_msec_timer1c+0x46>
+	}
+
+	//while ((TIFR1 & (0x1<<TOV1)) == 0); // wait for TOV1 to roll over at 255 (requires preload of 65,535-5 to make count = 250)
+	// How does this while loop work?? See notes
+	while (TCNT1 < 0xfa); // exits when count = 250 (requires preload of 0 to make count = 250)
+ 174:	80 81       	ld	r24, Z
+ 176:	91 81       	ldd	r25, Z+1	; 0x01
+ 178:	8a 3f       	cpi	r24, 0xFA	; 250
+ 17a:	91 05       	cpc	r25, r1
+ 17c:	d8 f3       	brcs	.-10     	; 0x174 <_Z19delay_T_msec_timer1c+0x5c>
+
+	TCCR1B = 0x00; // Stop TIMER1
+ 17e:	10 92 81 00 	sts	0x0081, r1	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+	//TIFR1 = 0x1<<TOV1;  // Clear TOV1 (note that this is an odd bit in that it
+	//is cleared by writing a 1 to it)
+
+} // end delay_T_msec_timer1()
+ 182:	0f 90       	pop	r0
+ 184:	df 91       	pop	r29
+ 186:	cf 91       	pop	r28
+ 188:	08 95       	ret
+
+0000018a <_Z4waitic>:
+	while (!(UCSR0A & (1<<UDRE0))); // Poll to make sure transmit buffer is ready,
+	// then send data
+	UDR0 = x;
+}
+
+void wait(volatile int multiple, volatile char time_choice) {
+ 18a:	cf 93       	push	r28
+ 18c:	df 93       	push	r29
+ 18e:	00 d0       	rcall	.+0      	; 0x190 <_Z4waitic+0x6>
+ 190:	1f 92       	push	r1
+ 192:	cd b7       	in	r28, 0x3d	; 61
+ 194:	de b7       	in	r29, 0x3e	; 62
+ 196:	9a 83       	std	Y+2, r25	; 0x02
+ 198:	89 83       	std	Y+1, r24	; 0x01
+ 19a:	6b 83       	std	Y+3, r22	; 0x03
+	while (multiple > 0) {
+ 19c:	89 81       	ldd	r24, Y+1	; 0x01
+ 19e:	9a 81       	ldd	r25, Y+2	; 0x02
+ 1a0:	18 16       	cp	r1, r24
+ 1a2:	19 06       	cpc	r1, r25
+ 1a4:	6c f4       	brge	.+26     	; 0x1c0 <_Z4waitic+0x36>
+		delay_T_msec_timer1(time_choice);
+ 1a6:	8b 81       	ldd	r24, Y+3	; 0x03
+ 1a8:	0e 94 8c 00 	call	0x118	; 0x118 <_Z19delay_T_msec_timer1c>
+		multiple--;
+ 1ac:	89 81       	ldd	r24, Y+1	; 0x01
+ 1ae:	9a 81       	ldd	r25, Y+2	; 0x02
+ 1b0:	01 97       	sbiw	r24, 0x01	; 1
+ 1b2:	9a 83       	std	Y+2, r25	; 0x02
+ 1b4:	89 83       	std	Y+1, r24	; 0x01
+	// then send data
+	UDR0 = x;
+}
+
+void wait(volatile int multiple, volatile char time_choice) {
+	while (multiple > 0) {
+ 1b6:	89 81       	ldd	r24, Y+1	; 0x01
+ 1b8:	9a 81       	ldd	r25, Y+2	; 0x02
+ 1ba:	18 16       	cp	r1, r24
+ 1bc:	19 06       	cpc	r1, r25
+ 1be:	9c f3       	brlt	.-26     	; 0x1a6 <_Z4waitic+0x1c>
+		delay_T_msec_timer1(time_choice);
+		multiple--;
+	}
+}
+ 1c0:	0f 90       	pop	r0
+ 1c2:	0f 90       	pop	r0
+ 1c4:	0f 90       	pop	r0
+ 1c6:	df 91       	pop	r29
+ 1c8:	cf 91       	pop	r28
+ 1ca:	08 95       	ret
+
+000001cc <__vector_1>:
+		}
+	}
+}
+
+// This interrupt is for the go-stop switch
+ISR(INT0_vect) {
+ 1cc:	1f 92       	push	r1
+ 1ce:	0f 92       	push	r0
+ 1d0:	0f b6       	in	r0, 0x3f	; 63
+ 1d2:	0f 92       	push	r0
+ 1d4:	11 24       	eor	r1, r1
+ 1d6:	2f 93       	push	r18
+ 1d8:	3f 93       	push	r19
+ 1da:	4f 93       	push	r20
+ 1dc:	5f 93       	push	r21
+ 1de:	6f 93       	push	r22
+ 1e0:	7f 93       	push	r23
+ 1e2:	8f 93       	push	r24
+ 1e4:	9f 93       	push	r25
+ 1e6:	af 93       	push	r26
+ 1e8:	bf 93       	push	r27
+ 1ea:	ef 93       	push	r30
+ 1ec:	ff 93       	push	r31
+	wait(250,2);
+ 1ee:	62 e0       	ldi	r22, 0x02	; 2
+ 1f0:	8a ef       	ldi	r24, 0xFA	; 250
+ 1f2:	90 e0       	ldi	r25, 0x00	; 0
+ 1f4:	0e 94 c5 00 	call	0x18a	; 0x18a <_Z4waitic>
+	counter=counter+1;
+ 1f8:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <counter>
+ 1fc:	8f 5f       	subi	r24, 0xFF	; 255
+ 1fe:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <counter>
+
+	if(counter>=2)
+ 202:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <counter>
+ 206:	82 30       	cpi	r24, 0x02	; 2
+ 208:	28 f0       	brcs	.+10     	; 0x214 <__vector_1+0x48>
+	{
+		counter=0;
+ 20a:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <counter>
+		ButtonValue = 0;
+ 20e:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <ButtonValue>
+ 212:	07 c0       	rjmp	.+14     	; 0x222 <__vector_1+0x56>
+	}
+	else if (counter == 1)
+ 214:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <counter>
+ 218:	81 30       	cpi	r24, 0x01	; 1
+ 21a:	19 f4       	brne	.+6      	; 0x222 <__vector_1+0x56>
+	{
+		ButtonValue = 190;
+ 21c:	8e eb       	ldi	r24, 0xBE	; 190
+ 21e:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+	}
+
+	EIFR = EIFR | 1<<INTF0;
+ 222:	e0 9a       	sbi	0x1c, 0	; 28
+}
+ 224:	ff 91       	pop	r31
+ 226:	ef 91       	pop	r30
+ 228:	bf 91       	pop	r27
+ 22a:	af 91       	pop	r26
+ 22c:	9f 91       	pop	r25
+ 22e:	8f 91       	pop	r24
+ 230:	7f 91       	pop	r23
+ 232:	6f 91       	pop	r22
+ 234:	5f 91       	pop	r21
+ 236:	4f 91       	pop	r20
+ 238:	3f 91       	pop	r19
+ 23a:	2f 91       	pop	r18
+ 23c:	0f 90       	pop	r0
+ 23e:	0f be       	out	0x3f, r0	; 63
+ 240:	0f 90       	pop	r0
+ 242:	1f 90       	pop	r1
+ 244:	18 95       	reti
+
+00000246 <__vector_2>:
+
+// This interrupt to open/close lid. It will also prevent the cooler from moving if the lid is open
+ISR(INT1_vect) {
+ 246:	1f 92       	push	r1
+ 248:	0f 92       	push	r0
+ 24a:	0f b6       	in	r0, 0x3f	; 63
+ 24c:	0f 92       	push	r0
+ 24e:	11 24       	eor	r1, r1
+ 250:	2f 93       	push	r18
+ 252:	3f 93       	push	r19
+ 254:	4f 93       	push	r20
+ 256:	5f 93       	push	r21
+ 258:	6f 93       	push	r22
+ 25a:	7f 93       	push	r23
+ 25c:	8f 93       	push	r24
+ 25e:	9f 93       	push	r25
+ 260:	af 93       	push	r26
+ 262:	bf 93       	push	r27
+ 264:	ef 93       	push	r30
+ 266:	ff 93       	push	r31
+	wait(250,2);
+ 268:	62 e0       	ldi	r22, 0x02	; 2
+ 26a:	8a ef       	ldi	r24, 0xFA	; 250
+ 26c:	90 e0       	ldi	r25, 0x00	; 0
+ 26e:	0e 94 c5 00 	call	0x18a	; 0x18a <_Z4waitic>
+	counter2=counter2+1;
+ 272:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 276:	8f 5f       	subi	r24, 0xFF	; 255
+ 278:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+	if(counter2>=2)
+ 27c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 280:	82 30       	cpi	r24, 0x02	; 2
+ 282:	30 f0       	brcs	.+12     	; 0x290 <__vector_2+0x4a>
+	{
+		counter2=0;
+ 284:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
+		ButtonValue = 70;
+ 288:	86 e4       	ldi	r24, 0x46	; 70
+ 28a:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+ 28e:	07 c0       	rjmp	.+14     	; 0x29e <__vector_2+0x58>
+	}
+	else if (counter2 == 1)
+ 290:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 294:	81 30       	cpi	r24, 0x01	; 1
+ 296:	19 f4       	brne	.+6      	; 0x29e <__vector_2+0x58>
+	{
+		ButtonValue = 140;
+ 298:	8c e8       	ldi	r24, 0x8C	; 140
+ 29a:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+	}
+
+	EIFR = EIFR | 1<<INTF1;
+ 29e:	e1 9a       	sbi	0x1c, 1	; 28
+}
+ 2a0:	ff 91       	pop	r31
+ 2a2:	ef 91       	pop	r30
+ 2a4:	bf 91       	pop	r27
+ 2a6:	af 91       	pop	r26
+ 2a8:	9f 91       	pop	r25
+ 2aa:	8f 91       	pop	r24
+ 2ac:	7f 91       	pop	r23
+ 2ae:	6f 91       	pop	r22
+ 2b0:	5f 91       	pop	r21
+ 2b2:	4f 91       	pop	r20
+ 2b4:	3f 91       	pop	r19
+ 2b6:	2f 91       	pop	r18
+ 2b8:	0f 90       	pop	r0
+ 2ba:	0f be       	out	0x3f, r0	; 63
+ 2bc:	0f 90       	pop	r0
+ 2be:	1f 90       	pop	r1
+ 2c0:	18 95       	reti
+
+000002c2 <_exit>:
+ 2c2:	f8 94       	cli
+
+000002c4 <__stop_program>:
+ 2c4:	ff cf       	rjmp	.-2      	; 0x2c4 <__stop_program>

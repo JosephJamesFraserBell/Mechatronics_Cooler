@@ -21,7 +21,7 @@ int stepLeft(int local_counter);
 // Anything transmitted above 175 will be the kill switch 
 
 volatile int counter = 0;
-unsigned char ButtonValue;
+unsigned char ButtonValue = 50;
 
 int main(void)
 {
@@ -30,7 +30,7 @@ int main(void)
 	DDRB = 0b11111111;
 	DDRC = 0b11111111;
 	DDRD = 0b11110111;
-	PORTB = 0b1111101; // PB1-4 will be the lights to test the buttons
+	PORTB = 0b11111111; // PB1-4 will be the lights to test the buttons
 	PORTC = 0b00110100;
 	PORTD = 0b11110111;
 	EICRA = 0b00001000;
@@ -41,10 +41,8 @@ int main(void)
 	initialize_usart(); // Initialize the USART with desired parameters
     while (1) 
     {
-		//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 		ButtonValue = UDR0; // Read the data
-		
-		//while (ButtonValue <= 35) {
 			for (int i = 0; i < 800; i++)
 			{
 				// THIS IS TO GET THE STEPPER MOTOR TO PAN TO THE RIGHT
@@ -54,8 +52,8 @@ int main(void)
 				
 				// READ THE VALUES FROM THE WIRELESS TRANSMITTER
 				//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
-				ButtonValue = UDR0; // Read the data
-				ButtonValue = 20;
+				//ButtonValue = UDR0; // Read the data
+				//ButtonValue = 20;
 				
 				// PERFORM ACTION DEPENDING ON WHAT VALUE WAS RECIEVED FROM THE WIRELESS TRANSMITTER
 				if (ButtonValue <= 35){
@@ -65,7 +63,7 @@ int main(void)
 					PORTB = 0b11111011;
 					
 					// READ THE VALUES FROM THE WIRELESS TRANSMITTER
-					//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+					while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 					ButtonValue = UDR0; // Read the data
 				}
 				if (ButtonValue > 105 && ButtonValue <= 175) {
@@ -74,7 +72,7 @@ int main(void)
 				while (ButtonValue >= 175) {
 					PORTB = 0b11101111;
 					
-					//while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+					while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 					ButtonValue = UDR0; // Read the data
 				}
 				
@@ -111,7 +109,6 @@ int main(void)
 					ButtonValue = UDR0; // Read the data
 				}
 			}
-	//	}
     }
 	return 0;
 }
@@ -127,8 +124,8 @@ void initialize_usart(void) // function to set up USART
 void wait(volatile int multiple, volatile char time_choice) {
 	while (multiple > 0) {
 		delay_T_msec_timer1(time_choice);
-		if (ButtonValue > 32)
-			multiple = 0;
+		//if (ButtonValue > 32)
+			//multiple = 0;
 		multiple--;
 	}
 }

@@ -23,34 +23,63 @@ void sendPulse();
 // 210 value will be the kill switch
 
 unsigned char ButtonValue = 0;
-unsigned char counter = 0; // This will be used in INT0
-unsigned char counter2 = 0; // This will be used in INT1
+volatile char counter = 0; // This will be used in INT0
+volatile char counter2 = 0; // This will be used in INT1
 
 int main(void)
 {
+	DDRB = 0b11111111;
 	DDRC = 0b00000001;
 	DDRD = 0b00000000;
+	PORTB = 0b11111111;
 	PORTC = 0b00000001;
 	EICRA = 0b00001010;
 	EIMSK = 1<<INT0 | 1<<INT1;
 	sei();
-
+	/*PRR = 0x00; // clear Power Reduction ADC bit (0) in PRR register
+	ADCSRA = 1<<ADEN | 1<<ADPS2 | 1<<ADPS1 | 1<<ADPS0; // 0x87 // 0b10000111 // Set ADC Enable bit (7) in ADCSRA register, and set ADC prescaler to 128 (bits 2?0 of ADCSRA = ADPS2?ADPS0 = 111)
+	ADMUX = 0<<REFS1 | 1<<REFS0 | 1<<ADLAR; //0x60; // 0b01100000 // select Analog Reference voltage to be AVcc (bits7?6 of ADMUX = 01), //left justification (bit 5 of ADMUX = ADLAR = 1);
+	//and select channel 0 (bits 3?0 of ADMUX = MUX3?MUX0 = 000)
+	
+	TCCR0A = 1<<COM0A1 | 0<<COM0A0 | 1<<WGM01 | 1<<WGM00;      // Set non-inverting mode on OC0A pin (COMA1:0 = 10; Fast PWM (WGM1:0 bits = bits 1:0 = 11) (Note that we are not affecting OC0B because COMB0:1 bits stay at default = 00)
+	TCCR0B = 0<<CS02 | 1<<CS01 | 1<<CS00; // Set base PWM frequency (CS02:0 - bits 2-0 = 011 for prescaler of 64, for approximately 1kHz base frequency)
+	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
+*/
+	
+	//int local_button = 0;
+	initialize_usart(); // Initialize the USART with desired parameters
     while (1) 
     {
 		sendPulse();
 		transmit_data_usart(ButtonValue);
-    }
+		
+		// TEST
+		if (ButtonValue == 0) {
+			PORTB = 0b11111101;
+		}
+		else if (ButtonValue == 70) {
+			PORTB = 0b11111011;
+		}
+		else if (ButtonValue == 140) {
+			PORTB = 0b11110111;
+		}
+		else if (ButtonValue == 190) {
+			PORTB = 0b11101111;
+		}
+	}
 }
 
 // This interrupt is for the go-stop switch
 ISR(INT0_vect) {
+	wait(250,2);
 	counter=counter+1;
+
 	if(counter>=2)
 	{
 		counter=0;
 		ButtonValue = 0;
 	}
-	if (counter == 1)
+	else if (counter == 1)
 	{
 		ButtonValue = 190;
 	}
@@ -60,14 +89,14 @@ ISR(INT0_vect) {
 
 // This interrupt to open/close lid. It will also prevent the cooler from moving if the lid is open
 ISR(INT1_vect) {
-	
+	wait(250,2);
 	counter2=counter2+1;
 	if(counter2>=2)
 	{
-		counter=0;
+		counter2=0;
 		ButtonValue = 70;
 	}
-	if (counter2 == 1)
+	else if (counter2 == 1)
 	{
 		ButtonValue = 140;
 	}
