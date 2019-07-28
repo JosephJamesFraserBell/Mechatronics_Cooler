@@ -11,13 +11,14 @@
 void delay_T_msec_timer1(volatile char choice);
 void initialize_usart(); // function to set up USART
 void wait(volatile int multiple, volatile char time_choice);
+void wait_stepper(volatile int multiple, volatile char time_choice);
 // ADD ANOTHER WAIT FUNCTION FOR THE LID
 int stepRight(int local_counter);
 int stepLeft(int local_counter);
 //TRANSMITTED VALUE 
 // < 35 will be for the normal function (Go)
 // 35 < x < 105 will be for the cooler to open the lid and stop everything
-// Anything transmitted above 105 and less than 175 will be for the cooler to open the lid and stop everything
+// Anything transmitted above 105 and less than 175 will be for the cooler to close the lid and go
 // Anything transmitted above 175 will be the kill switch 
 
 volatile int counter = 0;
@@ -124,11 +125,19 @@ void initialize_usart(void) // function to set up USART
 void wait(volatile int multiple, volatile char time_choice) {
 	while (multiple > 0) {
 		delay_T_msec_timer1(time_choice);
-		//if (ButtonValue > 32)
-			//multiple = 0;
+		if (ButtonValue > 32)
+			multiple = 0;
 		multiple--;
 	}
 }
+
+void wait_stepper(volatile int multiple, volatile char time_choice) {
+	while (multiple > 0) {
+		delay_T_msec_timer1(time_choice);
+		multiple--;
+	}
+}
+
 void delay_T_msec_timer1(volatile char choice) {
 	//
 	// ***Note that since the Timer1 register is 16 bits, the delays can be much higher than shown here.
@@ -175,6 +184,10 @@ void delay_T_msec_timer1(volatile char choice) {
 } // end delay_T_msec_timer1()
 
 ISR(INT1_vect) {
+	
+	while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+	ButtonValue = UDR0; // Read the data
+	
 	if (counter <= 264) {
 		PORTD = PORTD & 0b01111111;
 		wait(1000,2);
@@ -188,6 +201,29 @@ ISR(INT1_vect) {
 		wait(1000,2);
 	}
 	PORTD = PORTD | 0b11110111;
+	
+	// PERFORM ACTION DEPENDING ON WHAT VALUE WAS RECIEVED FROM THE WIRELESS TRANSMITTER
+	if (ButtonValue <= 35){
+		PORTB = 0b11111101;
+	}
+	while (ButtonValue > 35 && ButtonValue <= 105) {
+		PORTB = 0b11111011;
+		
+		// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		ButtonValue = UDR0; // Read the data
+	}
+	if (ButtonValue > 105 && ButtonValue <= 175) {
+		PORTB = 0b11110111;
+	}
+	while (ButtonValue >= 175) {
+		PORTB = 0b11101111;
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		ButtonValue = UDR0; // Read the data
+	}
+	
+	
 	//EIFR = EIFR | 1<<INTF1;
 
 }
@@ -195,11 +231,11 @@ ISR(INT1_vect) {
 int stepRight(int counter_value){
 	int counter_right = counter_value + 1;
 	PORTC &= ~(1 << PORTC1); //changing direction to step right by clearing pc1
-	wait(5,2);
+	wait_stepper(5,2);
 	PORTC ^= 1 << PORTC3;
-	wait(1,1);
+	wait_stepper(1,1);
 	PORTC ^= 1 << PORTC3;
-	wait(1,1);
+	wait_stepper(1,1);
 	
 	return counter_right;
 }
@@ -207,11 +243,11 @@ int stepRight(int counter_value){
 int stepLeft(int counter_value){
 	int counter_left = counter_value - 1;
 	PORTC |= 1 << PORTC1; //changing directon pin to step left by setting pc1
-	wait(5,2);
+	wait_stepper(5,2);
 	PORTC ^= 1 << PORTC3;
-	wait(1,1);
+	wait_stepper(1,1);
 	PORTC ^= 1 << PORTC3;
-	wait(1,1);
+	wait_stepper(1,1);
 	
 	return counter_left;
 }
