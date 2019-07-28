@@ -20,9 +20,9 @@ int main(void)
 {
     //PC3 - step , PC1 - dir 1 is cw 0 is ccw
 	
-	DDRC = 0b11111111;
+	DDRB = 0b11111111;
 	DDRD = 0b11110111;
-	PORTC = 0b00110100;
+	PORTB = 0b00110100;
 	PORTD = 0b11110111;
 	EICRA = 0b00001000;
 	EIMSK = 1<<INT1;
@@ -126,11 +126,11 @@ ISR(INT1_vect) {
 
 int stepRight(int counter_value){
 	int counter_right = counter_value + 1;
-	PORTC &= ~(1 << PORTC1); //changing direction to step right by clearing pc1
+	PORTC &= ~(1 << PORTB1); //changing direction to step right by clearing pc1
 	wait(5,2);
-	PORTC ^= 1 << PORTC3;
+	PORTC ^= 1 << PORTB3;
 	wait(1,1);
-	PORTC ^= 1 << PORTC3;
+	PORTC ^= 1 << PORTB3;
 	wait(1,1);
 	
 	return counter_right;
@@ -138,69 +138,272 @@ int stepRight(int counter_value){
 
 int stepLeft(int counter_value){
 	int counter_left = counter_value - 1;
-	PORTC |= 1 << PORTC1; //changing directon pin to step left by setting pc1
+	PORTC |= 1 << PORTB1; //changing directon pin to step left by setting pc1
 	wait(5,2);
-	PORTC ^= 1 << PORTC3;
+	PORTC ^= 1 << PORTB3;
 	wait(1,1);
-	PORTC ^= 1 << PORTC3;
+	PORTC ^= 1 << PORTB3;
 	wait(1,1);
 	
 	return counter_left;
 }
-
-void determineWheelRotation(int counter_value){
+/*
+void determineWheelRotation(){
+	int counter_value = counter;
 	switch(counter_value) {
+		case counter_value <= -800:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(3000,2);
+		break;
+		case counter_value <= -768:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2900,2);
+		break;
+		case counter_value <= -736:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2800,2);
+		break;
+		case counter_value <= -704:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2700,2);
+		break;
+		case counter_value <= -672:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2600,2);
+		break;
+		case counter_value <= -640:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2500,2);
+		break;
+		case counter_value <= -608:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2400,2);
+		break;
+		case counter_value <= -576:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2300,2);
+		break;
+		case counter_value <= -544:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2200,2);
+		break;
+		case counter_value <= -512:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2100,2);
+		break;
+		case counter_value <= -480:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(2000,2);
+		break;
+		case counter_value <= -448:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1900,2);
+		break;
+		case counter_value <= -416:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1800,2);
+		break;
+		case counter_value <= -384:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1700,2);
+		break;
+		case counter_value <= -352:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1600,2);
+		break;
+		case counter_value <= -320:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1500,2);
+		break;
+		case counter_value <= -288:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1400,2);
+		break;
+		case counter_value <= -256:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1300,2);
+		break;
+		case counter_value <= -224:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1200,2);
+		break;
+		case counter_value <= -192:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1100,2);
+		break;
+		case counter_value <= -160:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(1000,2);
+		break;
+		case counter_value <= -128:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(900,2);
+		break;
+		case counter_value <= -96:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(800,2);
+		break;
+		case counter_value <= -64:
+		OCR0A = 100;
+		OCR0B = 200;
+		wait(700,2);
+		break;
+		case counter_value <= -32:
+		OCR0A = 200;
+		OCR0B = 200;
+		break;
 		case counter_value <= 32:
+		OCR0A = 200;
+		OCR0B = 200;
 		break;
 		case counter_value <= 64:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(700,2);
 		break;
 		case counter_value <= 96:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(800,2);
 		break;
 		case counter_value <= 128:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(900,2);
 		break;
 		case counter_value <= 160:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1000,2);
 		break;
 		case counter_value <= 192:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1100,2);
 		break;
 		case counter_value <= 224:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1200,2);
 		break;
 		case counter_value <= 256:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1300,2);
 		break;
-		case counter_value <= 288:
+		case counter_value <= 288
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1400,2);
 		break;
 		case counter_value <= 320:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1500,2);
 		break;
 		case counter_value <= 352:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1600,2);
 		break;
 		case counter_value <= 384:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1700,2);
 		break;
 		case counter_value <= 416:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1800,2);
 		break;
 		case counter_value <= 448:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(1900,2);
 		break;
 		case counter_value <= 480:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2000,2);
 		break;
 		case counter_value <= 512:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2100,2);
 		break;
 		case counter_value <= 544:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2200,2);
 		break;
 		case counter_value <= 576:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2300,2);
 		break;
 		case counter_value <= 608:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2400,2);
 		break;
 		case counter_value <= 640:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2500,2);
 		break;
 		case counter_value <= 672:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2600,2);
 		break;
 		case counter_value <= 704:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2700,2);
 		break;
 		case counter_value <= 736:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2800,2);
 		break;
 		case counter_value <= 768:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(2900,2);
 		break;
 		case counter_value <= 800:
+		OCR0A = 200;
+		OCR0B = 100;
+		wait(3000,2);
 		break;
 		default: 
+		OCR0A = 0;
+		OCR0B = 0;
+		wait(1000,2);
 		break;
 	}
 }
+*/
