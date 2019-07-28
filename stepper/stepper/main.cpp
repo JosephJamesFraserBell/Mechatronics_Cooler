@@ -14,6 +14,7 @@ void wait(volatile int multiple, volatile char time_choice);
 int stepRight(int local_counter);
 int stepLeft(int local_counter);
 void step();
+void determineWheelRotation(int counter_value);
 volatile int counter = 0;
 
 int main(void)
@@ -147,263 +148,265 @@ int stepLeft(int counter_value){
 	
 	return counter_left;
 }
-/*
-void determineWheelRotation(){
-	int counter_value = counter;
-	switch(counter_value) {
-		case counter_value <= -800:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(3000,2);
-		break;
-		case counter_value <= -768:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2900,2);
-		break;
-		case counter_value <= -736:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2800,2);
-		break;
-		case counter_value <= -704:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2700,2);
-		break;
-		case counter_value <= -672:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2600,2);
-		break;
-		case counter_value <= -640:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2500,2);
-		break;
-		case counter_value <= -608:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2400,2);
-		break;
-		case counter_value <= -576:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2300,2);
-		break;
-		case counter_value <= -544:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2200,2);
-		break;
-		case counter_value <= -512:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2100,2);
-		break;
-		case counter_value <= -480:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(2000,2);
-		break;
-		case counter_value <= -448:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1900,2);
-		break;
-		case counter_value <= -416:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1800,2);
-		break;
-		case counter_value <= -384:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1700,2);
-		break;
-		case counter_value <= -352:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1600,2);
-		break;
-		case counter_value <= -320:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1500,2);
-		break;
-		case counter_value <= -288:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1400,2);
-		break;
-		case counter_value <= -256:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1300,2);
-		break;
-		case counter_value <= -224:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1200,2);
-		break;
-		case counter_value <= -192:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1100,2);
-		break;
-		case counter_value <= -160:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(1000,2);
-		break;
-		case counter_value <= -128:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(900,2);
-		break;
-		case counter_value <= -96:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(800,2);
-		break;
-		case counter_value <= -64:
-		OCR0A = 100;
-		OCR0B = 200;
-		wait(700,2);
-		break;
-		case counter_value <= -32:
-		OCR0A = 200;
-		OCR0B = 200;
-		break;
-		case counter_value <= 32:
-		OCR0A = 200;
-		OCR0B = 200;
-		break;
-		case counter_value <= 64:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(700,2);
-		break;
-		case counter_value <= 96:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(800,2);
-		break;
-		case counter_value <= 128:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(900,2);
-		break;
-		case counter_value <= 160:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1000,2);
-		break;
-		case counter_value <= 192:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1100,2);
-		break;
-		case counter_value <= 224:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1200,2);
-		break;
-		case counter_value <= 256:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1300,2);
-		break;
-		case counter_value <= 288
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1400,2);
-		break;
-		case counter_value <= 320:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1500,2);
-		break;
-		case counter_value <= 352:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1600,2);
-		break;
-		case counter_value <= 384:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1700,2);
-		break;
-		case counter_value <= 416:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1800,2);
-		break;
-		case counter_value <= 448:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(1900,2);
-		break;
-		case counter_value <= 480:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2000,2);
-		break;
-		case counter_value <= 512:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2100,2);
-		break;
-		case counter_value <= 544:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2200,2);
-		break;
-		case counter_value <= 576:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2300,2);
-		break;
-		case counter_value <= 608:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2400,2);
-		break;
-		case counter_value <= 640:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2500,2);
-		break;
-		case counter_value <= 672:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2600,2);
-		break;
-		case counter_value <= 704:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2700,2);
-		break;
-		case counter_value <= 736:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2800,2);
-		break;
-		case counter_value <= 768:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(2900,2);
-		break;
-		case counter_value <= 800:
-		OCR0A = 200;
-		OCR0B = 100;
-		wait(3000,2);
-		break;
-		default: 
-		OCR0A = 0;
-		OCR0B = 0;
-		wait(1000,2);
-		break;
-	}
-}
-*/
+
+void determineWheelRotation(int counter_value){
+	
+if( counter_value <= -800 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(3000,2);
+		}
+		else if( counter_value <= -768 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2900,2);
+		}
+		else if( counter_value <= -736 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2800,2);
+		}
+		else if( counter_value <= -704 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2700,2);
+		}
+		else if( counter_value <= -672 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2600,2);
+		}
+		else if( counter_value <= -640 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2500,2);
+		}
+		else if( counter_value <= -608 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2400,2);
+		}
+		else if( counter_value <= -576 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2300,2);
+		}
+		else if( counter_value <= -544 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2200,2);
+		}
+		else if( counter_value <= -512 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2100,2);
+		}
+		else if( counter_value <= -480 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(2000,2);
+		}
+		else if( counter_value <= -448 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1900,2);
+		}
+		else if( counter_value <= -416 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1800,2);
+		}
+		else if( counter_value <= -384 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1700,2);
+		}
+		else if( counter_value <= -352 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1600,2);
+		}
+		else if( counter_value <= -320 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1500,2);
+		}
+		else if( counter_value <= -288 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1400,2);
+		}
+		else if( counter_value <= -256 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1300,2);
+		}
+		else if( counter_value <= -224 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1200,2);
+		}
+		else if( counter_value <= -192 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1100,2);
+		}
+		else if( counter_value <= -160 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(1000,2);
+		}
+		else if( counter_value <= -128 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(900,2);
+		}
+		else if( counter_value <= -96 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(800,2);
+		}
+		else if( counter_value <= -64 ){
+			OCR0A = 100;
+			OCR0B = 200;
+			wait(700,2);
+		}
+		else if( counter_value <= -32 ){
+			OCR0A = 200;
+			OCR0B = 200;
+			wait(1,1);
+			
+		}
+		else if( counter_value <= 32 ){
+			OCR0A = 200;
+			OCR0B = 200;
+			wait(1,1);
+		}
+		else if( counter_value <= 64 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(700,2);
+		}
+		else if( counter_value <= 96 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(800,2);
+		}
+		else if( counter_value <= 128 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(900,2);
+		}
+		else if( counter_value <= 160 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1000,2);
+		}
+		else if( counter_value <= 192 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1100,2);
+		}
+		else if( counter_value <= 224 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1200,2);
+		}
+		else if( counter_value <= 256 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1300,2);
+		}
+		else if( counter_value <= 288 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1400,2);
+		}
+		else if( counter_value <= 320 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1500,2);
+		}
+		else if( counter_value <= 352 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1600,2);
+		}
+		else if( counter_value <= 384 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1700,2);
+		}
+		else if( counter_value <= 416 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1800,2);
+		}
+		else if( counter_value <= 448 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(1900,2);
+		}
+		else if( counter_value <= 480 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2000,2);
+		}
+		else if( counter_value <= 512 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2100,2);
+		}
+		else if( counter_value <= 544 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2200,2);
+		}
+		else if( counter_value <= 576 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2300,2);
+		}
+		else if( counter_value <= 608 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2400,2);
+		}
+		else if( counter_value <= 640 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2500,2);
+		}
+		else if( counter_value <= 672 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2600,2);
+		}
+		else if( counter_value <= 704 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2700,2);
+		}
+		else if( counter_value <= 736 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2800,2);
+		}
+		else if( counter_value <= 768 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(2900,2);
+		}
+		else if( counter_value <= 800 ){
+			OCR0A = 200;
+			OCR0B = 100;
+			wait(3000,2);
+		}
+		else {
+			OCR0A = 0;
+			OCR0B = 0;
+			wait(1000,2);
+		}
+		
+}//end of determineWheelRotation
+
