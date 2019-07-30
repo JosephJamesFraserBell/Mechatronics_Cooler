@@ -54,7 +54,7 @@ int main(void)
 			// READ THE VALUES FROM THE WIRELESS TRANSMITTER
 			while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 			ButtonValue = UDR0; // Read the data
-			Check_Button_Value(local_counter);
+			//Check_Button_Value(local_counter);
 		}
 
 		for (int i = 0; i < 800; i++){
@@ -66,7 +66,7 @@ int main(void)
 			// READ THE VALUES FROM THE WIRELESS TRANSMITTER
 			while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 			ButtonValue = UDR0; // Read the data
-			Check_Button_Value(local_counter);
+			//Check_Button_Value(local_counter);
 		}
     }
 }
@@ -77,7 +77,7 @@ ISR(INT1_vect) {
 	
 	Check_Button_Value(counter);
 	transmit_data_usart(SonarValue);
-	wait(1000,2);	
+	wait(10,2);	
 		
 	EIFR = EIFR | 1<<INTF1;
 }
@@ -216,7 +216,9 @@ void Check_Button_Value(int local_counter) {
 
 void Wheel_Direction(int counter_value) {
 	if (dir == 0) {
-		if( counter_value <= 456 ){
+		if (counter_value <= 268)
+			SonarValue = 230;
+		/*if( counter_value <= 456 ){
 			SonarValue=155;
 		}
 		else if( counter_value <= 494 ){
@@ -246,9 +248,11 @@ void Wheel_Direction(int counter_value) {
 		else if( counter_value <= 800 ){
 			SonarValue=245;
 		}
-	}
+	}*/
 	else if (dir == 1) {
-		if( counter_value <= 38 ){
+		if (counter_value <= 268)
+			SonarValue = 230;
+		/*if( counter_value <= 38 ){
 			SonarValue=45;
 		}
 		else if( counter_value <= 76 ){
@@ -277,9 +281,11 @@ void Wheel_Direction(int counter_value) {
 		}
 		else if( counter_value <= 380 ){
 			SonarValue=135;
-		}
+		}*/
+	}
 	else
-		SonarValue=145;
+		SonarValue=135;
+	
 	}
 }
 

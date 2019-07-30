@@ -33,8 +33,15 @@ int main(void)
 	initialize_usart(); // Initialize the USART with desired parameters
     while (1) 
     {
+		
+		
 		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 		Value = UDR0; // Read the data
+		
+		while(PINC | 0b00100000){
+			OCR0A = 0;
+			OCR0B = 0;
+		}
 		
 		Check_Button_Value();
     }
@@ -108,10 +115,7 @@ void Check_Button_Value() {
 	if (Value <= 10){
 		//OCR0A = 200;
 		//OCR0B = 200;
-		//while(PINC == 0b00000001){
-			//OCR0A = 0;
-			//OCR0B = 0;
-		//}
+		
 		Check_Direction();
 		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 		Value = UDR0; // Read the data
@@ -145,10 +149,10 @@ void Check_Button_Value() {
 void Check_Direction() {
 	while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
 	Value = UDR0; // Read the data
-	/*while(PINC & (1<<PORTC5)){
-		OCR0A = 0;
-		OCR0B = 0;
-	}*/
+	//while(PINC | 0b00100000){
+	//	OCR0A = 0;
+	//	OCR0B = 0;
+	}
 	if( Value < 90 ){
 		
 		OCR0A = 200;
