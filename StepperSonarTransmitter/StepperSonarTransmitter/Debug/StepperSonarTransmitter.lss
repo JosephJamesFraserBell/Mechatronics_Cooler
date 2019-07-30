@@ -1,0 +1,911 @@
+
+StepperSonarTransmitter.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  000005d0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000055c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000006  00800100  00800100  000005d0  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000005d0  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000600  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000070  00000000  00000000  00000640  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000aa9  00000000  00000000  000006b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000717  00000000  00000000  00001159  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000005d2  00000000  00000000  00001870  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000178  00000000  00000000  00001e44  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000052b  00000000  00000000  00001fbc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000075e  00000000  00000000  000024e7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000078  00000000  00000000  00002c45  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   8:	0c 94 71 02 	jmp	0x4e2	; 0x4e2 <__vector_2>
+   c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  14:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  18:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  1c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  20:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  24:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  28:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  2c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  30:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  34:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  38:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  44:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  48:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  54:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  58:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  5c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  60:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_clear_bss>:
+  74:	21 e0       	ldi	r18, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	01 c0       	rjmp	.+2      	; 0x7e <.do_clear_bss_start>
+
+0000007c <.do_clear_bss_loop>:
+  7c:	1d 92       	st	X+, r1
+
+0000007e <.do_clear_bss_start>:
+  7e:	a6 30       	cpi	r26, 0x06	; 6
+  80:	b2 07       	cpc	r27, r18
+  82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
+  84:	0e 94 0b 02 	call	0x416	; 0x416 <main>
+  88:	0c 94 ac 02 	jmp	0x558	; 0x558 <_exit>
+
+0000008c <__bad_interrupt>:
+  8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000090 <_Z16initialize_usartv>:
+void wait_stepper(volatile int multiple, volatile char time_choice) {
+	while (multiple > 0) {
+		delay_T_msec_timer1(time_choice);
+		multiple--;
+	}
+}
+  90:	88 e1       	ldi	r24, 0x18	; 24
+  92:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7e00c1>
+  96:	86 e0       	ldi	r24, 0x06	; 6
+  98:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7e00c2>
+  9c:	87 e6       	ldi	r24, 0x67	; 103
+  9e:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7e00c4>
+  a2:	08 95       	ret
+
+000000a4 <_Z19transmit_data_usarth>:
+  a4:	e0 ec       	ldi	r30, 0xC0	; 192
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	90 81       	ld	r25, Z
+  aa:	95 ff       	sbrs	r25, 5
+  ac:	fd cf       	rjmp	.-6      	; 0xa8 <_Z19transmit_data_usarth+0x4>
+  ae:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+  b2:	08 95       	ret
+
+000000b4 <_Z19delay_T_msec_timer1c>:
+  b4:	cf 93       	push	r28
+  b6:	df 93       	push	r29
+  b8:	1f 92       	push	r1
+  ba:	cd b7       	in	r28, 0x3d	; 61
+  bc:	de b7       	in	r29, 0x3e	; 62
+  be:	89 83       	std	Y+1, r24	; 0x01
+  c0:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+  c4:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x7e0085>
+  c8:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x7e0084>
+  cc:	89 81       	ldd	r24, Y+1	; 0x01
+  ce:	82 30       	cpi	r24, 0x02	; 2
+  d0:	69 f0       	breq	.+26     	; 0xec <_Z19delay_T_msec_timer1c+0x38>
+  d2:	18 f4       	brcc	.+6      	; 0xda <_Z19delay_T_msec_timer1c+0x26>
+  d4:	81 30       	cpi	r24, 0x01	; 1
+  d6:	31 f0       	breq	.+12     	; 0xe4 <_Z19delay_T_msec_timer1c+0x30>
+  d8:	17 c0       	rjmp	.+46     	; 0x108 <_Z19delay_T_msec_timer1c+0x54>
+  da:	83 30       	cpi	r24, 0x03	; 3
+  dc:	59 f0       	breq	.+22     	; 0xf4 <_Z19delay_T_msec_timer1c+0x40>
+  de:	84 30       	cpi	r24, 0x04	; 4
+  e0:	79 f0       	breq	.+30     	; 0x100 <_Z19delay_T_msec_timer1c+0x4c>
+  e2:	12 c0       	rjmp	.+36     	; 0x108 <_Z19delay_T_msec_timer1c+0x54>
+  e4:	82 e0       	ldi	r24, 0x02	; 2
+  e6:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+  ea:	07 c0       	rjmp	.+14     	; 0xfa <_Z19delay_T_msec_timer1c+0x46>
+  ec:	83 e0       	ldi	r24, 0x03	; 3
+  ee:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+  f2:	03 c0       	rjmp	.+6      	; 0xfa <_Z19delay_T_msec_timer1c+0x46>
+  f4:	84 e0       	ldi	r24, 0x04	; 4
+  f6:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+  fa:	e4 e8       	ldi	r30, 0x84	; 132
+  fc:	f0 e0       	ldi	r31, 0x00	; 0
+  fe:	08 c0       	rjmp	.+16     	; 0x110 <_Z19delay_T_msec_timer1c+0x5c>
+ 100:	85 e0       	ldi	r24, 0x05	; 5
+ 102:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+ 106:	f9 cf       	rjmp	.-14     	; 0xfa <_Z19delay_T_msec_timer1c+0x46>
+ 108:	81 e0       	ldi	r24, 0x01	; 1
+ 10a:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+ 10e:	f5 cf       	rjmp	.-22     	; 0xfa <_Z19delay_T_msec_timer1c+0x46>
+ 110:	80 81       	ld	r24, Z
+ 112:	91 81       	ldd	r25, Z+1	; 0x01
+ 114:	8a 3f       	cpi	r24, 0xFA	; 250
+ 116:	91 05       	cpc	r25, r1
+ 118:	d8 f3       	brcs	.-10     	; 0x110 <_Z19delay_T_msec_timer1c+0x5c>
+ 11a:	10 92 81 00 	sts	0x0081, r1	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+ 11e:	0f 90       	pop	r0
+ 120:	df 91       	pop	r29
+ 122:	cf 91       	pop	r28
+ 124:	08 95       	ret
+
+00000126 <_Z4waitic>:
+ 126:	cf 93       	push	r28
+ 128:	df 93       	push	r29
+ 12a:	00 d0       	rcall	.+0      	; 0x12c <_Z4waitic+0x6>
+ 12c:	1f 92       	push	r1
+ 12e:	cd b7       	in	r28, 0x3d	; 61
+ 130:	de b7       	in	r29, 0x3e	; 62
+ 132:	9a 83       	std	Y+2, r25	; 0x02
+ 134:	89 83       	std	Y+1, r24	; 0x01
+ 136:	6b 83       	std	Y+3, r22	; 0x03
+ 138:	89 81       	ldd	r24, Y+1	; 0x01
+ 13a:	9a 81       	ldd	r25, Y+2	; 0x02
+ 13c:	18 16       	cp	r1, r24
+ 13e:	19 06       	cpc	r1, r25
+ 140:	9c f4       	brge	.+38     	; 0x168 <_Z4waitic+0x42>
+ 142:	8b 81       	ldd	r24, Y+3	; 0x03
+ 144:	0e 94 5a 00 	call	0xb4	; 0xb4 <_Z19delay_T_msec_timer1c>
+ 148:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <ButtonValue>
+ 14c:	81 32       	cpi	r24, 0x21	; 33
+ 14e:	10 f0       	brcs	.+4      	; 0x154 <_Z4waitic+0x2e>
+ 150:	1a 82       	std	Y+2, r1	; 0x02
+ 152:	19 82       	std	Y+1, r1	; 0x01
+ 154:	89 81       	ldd	r24, Y+1	; 0x01
+ 156:	9a 81       	ldd	r25, Y+2	; 0x02
+ 158:	01 97       	sbiw	r24, 0x01	; 1
+ 15a:	9a 83       	std	Y+2, r25	; 0x02
+ 15c:	89 83       	std	Y+1, r24	; 0x01
+ 15e:	89 81       	ldd	r24, Y+1	; 0x01
+ 160:	9a 81       	ldd	r25, Y+2	; 0x02
+ 162:	18 16       	cp	r1, r24
+ 164:	19 06       	cpc	r1, r25
+ 166:	6c f3       	brlt	.-38     	; 0x142 <_Z4waitic+0x1c>
+ 168:	0f 90       	pop	r0
+ 16a:	0f 90       	pop	r0
+ 16c:	0f 90       	pop	r0
+ 16e:	df 91       	pop	r29
+ 170:	cf 91       	pop	r28
+ 172:	08 95       	ret
+
+00000174 <_Z9stepRighti>:
+	//TIFR1 = 0x1<<TOV1;  // Clear TOV1 (note that this is an odd bit in that it
+	//is cleared by writing a 1 to it)
+
+} // end delay_T_msec_timer1()
+
+int stepRight(int counter_value){
+ 174:	0f 93       	push	r16
+ 176:	1f 93       	push	r17
+ 178:	cf 93       	push	r28
+ 17a:	8c 01       	movw	r16, r24
+	int counter_right = counter_value + 1;
+	PORTC &= ~(1 << PORTC1); //changing direction to step right by clearing pc1
+ 17c:	41 98       	cbi	0x08, 1	; 8
+	wait(5,2);
+ 17e:	62 e0       	ldi	r22, 0x02	; 2
+ 180:	85 e0       	ldi	r24, 0x05	; 5
+ 182:	90 e0       	ldi	r25, 0x00	; 0
+ 184:	0e 94 93 00 	call	0x126	; 0x126 <_Z4waitic>
+	PORTC ^= 1 << PORTC3;
+ 188:	88 b1       	in	r24, 0x08	; 8
+ 18a:	c8 e0       	ldi	r28, 0x08	; 8
+ 18c:	8c 27       	eor	r24, r28
+ 18e:	88 b9       	out	0x08, r24	; 8
+	wait(1,1);
+ 190:	61 e0       	ldi	r22, 0x01	; 1
+ 192:	81 e0       	ldi	r24, 0x01	; 1
+ 194:	90 e0       	ldi	r25, 0x00	; 0
+ 196:	0e 94 93 00 	call	0x126	; 0x126 <_Z4waitic>
+	PORTC ^= 1 << PORTC3;
+ 19a:	88 b1       	in	r24, 0x08	; 8
+ 19c:	c8 27       	eor	r28, r24
+ 19e:	c8 b9       	out	0x08, r28	; 8
+	wait(1,1);
+ 1a0:	61 e0       	ldi	r22, 0x01	; 1
+ 1a2:	81 e0       	ldi	r24, 0x01	; 1
+ 1a4:	90 e0       	ldi	r25, 0x00	; 0
+ 1a6:	0e 94 93 00 	call	0x126	; 0x126 <_Z4waitic>
+	
+	return counter_right;
+}
+ 1aa:	c8 01       	movw	r24, r16
+ 1ac:	01 96       	adiw	r24, 0x01	; 1
+ 1ae:	cf 91       	pop	r28
+ 1b0:	1f 91       	pop	r17
+ 1b2:	0f 91       	pop	r16
+ 1b4:	08 95       	ret
+
+000001b6 <_Z8stepLefti>:
+
+int stepLeft(int counter_value){
+ 1b6:	0f 93       	push	r16
+ 1b8:	1f 93       	push	r17
+ 1ba:	cf 93       	push	r28
+ 1bc:	8c 01       	movw	r16, r24
+	int counter_left = counter_value - 1;
+	PORTC |= 1 << PORTC1; //changing directon pin to step left by setting pc1
+ 1be:	41 9a       	sbi	0x08, 1	; 8
+	wait(5,2);
+ 1c0:	62 e0       	ldi	r22, 0x02	; 2
+ 1c2:	85 e0       	ldi	r24, 0x05	; 5
+ 1c4:	90 e0       	ldi	r25, 0x00	; 0
+ 1c6:	0e 94 93 00 	call	0x126	; 0x126 <_Z4waitic>
+	PORTC ^= 1 << PORTC3;
+ 1ca:	88 b1       	in	r24, 0x08	; 8
+ 1cc:	c8 e0       	ldi	r28, 0x08	; 8
+ 1ce:	8c 27       	eor	r24, r28
+ 1d0:	88 b9       	out	0x08, r24	; 8
+	wait(1,1);
+ 1d2:	61 e0       	ldi	r22, 0x01	; 1
+ 1d4:	81 e0       	ldi	r24, 0x01	; 1
+ 1d6:	90 e0       	ldi	r25, 0x00	; 0
+ 1d8:	0e 94 93 00 	call	0x126	; 0x126 <_Z4waitic>
+	PORTC ^= 1 << PORTC3;
+ 1dc:	88 b1       	in	r24, 0x08	; 8
+ 1de:	c8 27       	eor	r28, r24
+ 1e0:	c8 b9       	out	0x08, r28	; 8
+	wait(1,1);
+ 1e2:	61 e0       	ldi	r22, 0x01	; 1
+ 1e4:	81 e0       	ldi	r24, 0x01	; 1
+ 1e6:	90 e0       	ldi	r25, 0x00	; 0
+ 1e8:	0e 94 93 00 	call	0x126	; 0x126 <_Z4waitic>
+	
+	return counter_left;
+}
+ 1ec:	c8 01       	movw	r24, r16
+ 1ee:	01 97       	sbiw	r24, 0x01	; 1
+ 1f0:	cf 91       	pop	r28
+ 1f2:	1f 91       	pop	r17
+ 1f4:	0f 91       	pop	r16
+ 1f6:	08 95       	ret
+
+000001f8 <_Z15Wheel_Directioni>:
+		ButtonValue = UDR0; // Read the data
+	}
+}
+
+void Wheel_Direction(int counter_value) {
+	if (dir == 0) {
+ 1f8:	20 91 00 01 	lds	r18, 0x0100	; 0x800100 <_edata>
+ 1fc:	30 91 01 01 	lds	r19, 0x0101	; 0x800101 <_edata+0x1>
+ 200:	21 15       	cp	r18, r1
+ 202:	31 05       	cpc	r19, r1
+ 204:	09 f0       	breq	.+2      	; 0x208 <_Z15Wheel_Directioni+0x10>
+ 206:	50 c0       	rjmp	.+160    	; 0x2a8 <_Z15Wheel_Directioni+0xb0>
+		if( counter_value <= 456 ){
+ 208:	89 3c       	cpi	r24, 0xC9	; 201
+ 20a:	21 e0       	ldi	r18, 0x01	; 1
+ 20c:	92 07       	cpc	r25, r18
+ 20e:	24 f4       	brge	.+8      	; 0x218 <_Z15Wheel_Directioni+0x20>
+			SonarValue=155;
+ 210:	8b e9       	ldi	r24, 0x9B	; 155
+ 212:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 216:	08 95       	ret
+		}
+		else if( counter_value <= 494 ){
+ 218:	8f 3e       	cpi	r24, 0xEF	; 239
+ 21a:	21 e0       	ldi	r18, 0x01	; 1
+ 21c:	92 07       	cpc	r25, r18
+ 21e:	24 f4       	brge	.+8      	; 0x228 <_Z15Wheel_Directioni+0x30>
+			SonarValue=165;
+ 220:	85 ea       	ldi	r24, 0xA5	; 165
+ 222:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 226:	08 95       	ret
+		}
+		else if( counter_value <= 532 ){
+ 228:	85 31       	cpi	r24, 0x15	; 21
+ 22a:	22 e0       	ldi	r18, 0x02	; 2
+ 22c:	92 07       	cpc	r25, r18
+ 22e:	24 f4       	brge	.+8      	; 0x238 <_Z15Wheel_Directioni+0x40>
+			SonarValue=175;
+ 230:	8f ea       	ldi	r24, 0xAF	; 175
+ 232:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 236:	08 95       	ret
+		}
+		else if( counter_value <= 570 ){
+ 238:	8b 33       	cpi	r24, 0x3B	; 59
+ 23a:	22 e0       	ldi	r18, 0x02	; 2
+ 23c:	92 07       	cpc	r25, r18
+ 23e:	24 f4       	brge	.+8      	; 0x248 <_Z15Wheel_Directioni+0x50>
+			SonarValue=185;
+ 240:	89 eb       	ldi	r24, 0xB9	; 185
+ 242:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 246:	08 95       	ret
+		}
+		else if( counter_value <= 608 ){
+ 248:	81 36       	cpi	r24, 0x61	; 97
+ 24a:	22 e0       	ldi	r18, 0x02	; 2
+ 24c:	92 07       	cpc	r25, r18
+ 24e:	24 f4       	brge	.+8      	; 0x258 <_Z15Wheel_Directioni+0x60>
+			SonarValue=195;
+ 250:	83 ec       	ldi	r24, 0xC3	; 195
+ 252:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 256:	08 95       	ret
+		}
+		else if( counter_value <= 646 ){
+ 258:	87 38       	cpi	r24, 0x87	; 135
+ 25a:	22 e0       	ldi	r18, 0x02	; 2
+ 25c:	92 07       	cpc	r25, r18
+ 25e:	24 f4       	brge	.+8      	; 0x268 <_Z15Wheel_Directioni+0x70>
+			SonarValue=205;
+ 260:	8d ec       	ldi	r24, 0xCD	; 205
+ 262:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 266:	08 95       	ret
+		}
+		else if( counter_value <= 684 ){
+ 268:	8d 3a       	cpi	r24, 0xAD	; 173
+ 26a:	22 e0       	ldi	r18, 0x02	; 2
+ 26c:	92 07       	cpc	r25, r18
+ 26e:	24 f4       	brge	.+8      	; 0x278 <_Z15Wheel_Directioni+0x80>
+			SonarValue=215;
+ 270:	87 ed       	ldi	r24, 0xD7	; 215
+ 272:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 276:	08 95       	ret
+		}
+		else if( counter_value <= 722 ){
+ 278:	83 3d       	cpi	r24, 0xD3	; 211
+ 27a:	22 e0       	ldi	r18, 0x02	; 2
+ 27c:	92 07       	cpc	r25, r18
+ 27e:	24 f4       	brge	.+8      	; 0x288 <_Z15Wheel_Directioni+0x90>
+			SonarValue=225;
+ 280:	81 ee       	ldi	r24, 0xE1	; 225
+ 282:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 286:	08 95       	ret
+		}
+		else if( counter_value <= 760 ){
+ 288:	89 3f       	cpi	r24, 0xF9	; 249
+ 28a:	22 e0       	ldi	r18, 0x02	; 2
+ 28c:	92 07       	cpc	r25, r18
+ 28e:	24 f4       	brge	.+8      	; 0x298 <_Z15Wheel_Directioni+0xa0>
+			SonarValue=235;
+ 290:	8b ee       	ldi	r24, 0xEB	; 235
+ 292:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 296:	08 95       	ret
+		}
+		else if( counter_value <= 800 ){
+ 298:	81 32       	cpi	r24, 0x21	; 33
+ 29a:	93 40       	sbci	r25, 0x03	; 3
+ 29c:	0c f0       	brlt	.+2      	; 0x2a0 <_Z15Wheel_Directioni+0xa8>
+ 29e:	54 c0       	rjmp	.+168    	; 0x348 <_Z15Wheel_Directioni+0x150>
+			SonarValue=245;
+ 2a0:	85 ef       	ldi	r24, 0xF5	; 245
+ 2a2:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 2a6:	08 95       	ret
+		}
+	}
+	else if (dir == 1) {
+ 2a8:	21 30       	cpi	r18, 0x01	; 1
+ 2aa:	31 05       	cpc	r19, r1
+ 2ac:	09 f0       	breq	.+2      	; 0x2b0 <_Z15Wheel_Directioni+0xb8>
+ 2ae:	4c c0       	rjmp	.+152    	; 0x348 <_Z15Wheel_Directioni+0x150>
+		if( counter_value <= 38 ){
+ 2b0:	87 32       	cpi	r24, 0x27	; 39
+ 2b2:	91 05       	cpc	r25, r1
+ 2b4:	24 f4       	brge	.+8      	; 0x2be <_Z15Wheel_Directioni+0xc6>
+			SonarValue=45;
+ 2b6:	8d e2       	ldi	r24, 0x2D	; 45
+ 2b8:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 2bc:	08 95       	ret
+		}
+		else if( counter_value <= 76 ){
+ 2be:	8d 34       	cpi	r24, 0x4D	; 77
+ 2c0:	91 05       	cpc	r25, r1
+ 2c2:	24 f4       	brge	.+8      	; 0x2cc <_Z15Wheel_Directioni+0xd4>
+			SonarValue=55;
+ 2c4:	87 e3       	ldi	r24, 0x37	; 55
+ 2c6:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 2ca:	08 95       	ret
+		}
+		else if( counter_value <= 114 ){
+ 2cc:	83 37       	cpi	r24, 0x73	; 115
+ 2ce:	91 05       	cpc	r25, r1
+ 2d0:	24 f4       	brge	.+8      	; 0x2da <_Z15Wheel_Directioni+0xe2>
+			SonarValue=65;
+ 2d2:	81 e4       	ldi	r24, 0x41	; 65
+ 2d4:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 2d8:	08 95       	ret
+		}
+		else if( counter_value <= 152 ){
+ 2da:	89 39       	cpi	r24, 0x99	; 153
+ 2dc:	91 05       	cpc	r25, r1
+ 2de:	24 f4       	brge	.+8      	; 0x2e8 <_Z15Wheel_Directioni+0xf0>
+			SonarValue=75;
+ 2e0:	8b e4       	ldi	r24, 0x4B	; 75
+ 2e2:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 2e6:	08 95       	ret
+		}
+		else if( counter_value <= 190 ){
+ 2e8:	8f 3b       	cpi	r24, 0xBF	; 191
+ 2ea:	91 05       	cpc	r25, r1
+ 2ec:	24 f4       	brge	.+8      	; 0x2f6 <_Z15Wheel_Directioni+0xfe>
+			SonarValue=85;
+ 2ee:	85 e5       	ldi	r24, 0x55	; 85
+ 2f0:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 2f4:	08 95       	ret
+		}
+		else if( counter_value <= 228 ){
+ 2f6:	85 3e       	cpi	r24, 0xE5	; 229
+ 2f8:	91 05       	cpc	r25, r1
+ 2fa:	24 f4       	brge	.+8      	; 0x304 <_Z15Wheel_Directioni+0x10c>
+			SonarValue=95;
+ 2fc:	8f e5       	ldi	r24, 0x5F	; 95
+ 2fe:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 302:	08 95       	ret
+		}
+		else if( counter_value <= 266 ){
+ 304:	8b 30       	cpi	r24, 0x0B	; 11
+ 306:	21 e0       	ldi	r18, 0x01	; 1
+ 308:	92 07       	cpc	r25, r18
+ 30a:	24 f4       	brge	.+8      	; 0x314 <_Z15Wheel_Directioni+0x11c>
+			SonarValue=105;
+ 30c:	89 e6       	ldi	r24, 0x69	; 105
+ 30e:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 312:	08 95       	ret
+		}
+		else if( counter_value <= 304 ){
+ 314:	81 33       	cpi	r24, 0x31	; 49
+ 316:	21 e0       	ldi	r18, 0x01	; 1
+ 318:	92 07       	cpc	r25, r18
+ 31a:	24 f4       	brge	.+8      	; 0x324 <_Z15Wheel_Directioni+0x12c>
+			SonarValue=115;
+ 31c:	83 e7       	ldi	r24, 0x73	; 115
+ 31e:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 322:	08 95       	ret
+		}
+		else if( counter_value <= 342 ){
+ 324:	87 35       	cpi	r24, 0x57	; 87
+ 326:	21 e0       	ldi	r18, 0x01	; 1
+ 328:	92 07       	cpc	r25, r18
+ 32a:	24 f4       	brge	.+8      	; 0x334 <_Z15Wheel_Directioni+0x13c>
+			SonarValue=125;
+ 32c:	8d e7       	ldi	r24, 0x7D	; 125
+ 32e:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 332:	08 95       	ret
+		}
+		else if( counter_value <= 380 ){
+ 334:	8d 37       	cpi	r24, 0x7D	; 125
+ 336:	91 40       	sbci	r25, 0x01	; 1
+ 338:	24 f4       	brge	.+8      	; 0x342 <_Z15Wheel_Directioni+0x14a>
+			SonarValue=135;
+ 33a:	87 e8       	ldi	r24, 0x87	; 135
+ 33c:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 340:	08 95       	ret
+		}
+	else
+		SonarValue=145;
+ 342:	81 e9       	ldi	r24, 0x91	; 145
+ 344:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+ 348:	08 95       	ret
+
+0000034a <_Z18Check_Button_Valuei>:
+	wait(1,1);
+	
+	return counter_left;
+}
+
+void Check_Button_Value(int local_counter) {
+ 34a:	ef 92       	push	r14
+ 34c:	ff 92       	push	r15
+ 34e:	1f 93       	push	r17
+ 350:	cf 93       	push	r28
+ 352:	df 93       	push	r29
+ 354:	ec 01       	movw	r28, r24
+	while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 356:	e0 ec       	ldi	r30, 0xC0	; 192
+ 358:	f0 e0       	ldi	r31, 0x00	; 0
+ 35a:	80 81       	ld	r24, Z
+ 35c:	88 23       	and	r24, r24
+ 35e:	ec f7       	brge	.-6      	; 0x35a <_Z18Check_Button_Valuei+0x10>
+	ButtonValue = UDR0; // Read the data
+ 360:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+ 364:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+	
+	if (ButtonValue <= 35){
+ 368:	84 32       	cpi	r24, 0x24	; 36
+ 36a:	60 f4       	brcc	.+24     	; 0x384 <_Z18Check_Button_Valuei+0x3a>
+		SonarValue = 5;
+ 36c:	85 e0       	ldi	r24, 0x05	; 5
+ 36e:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+		transmit_data_usart(SonarValue);
+ 372:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z19transmit_data_usarth>
+		Wheel_Direction(local_counter);
+ 376:	ce 01       	movw	r24, r28
+ 378:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <_Z15Wheel_Directioni>
+		transmit_data_usart(SonarValue);
+ 37c:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <SonarValue>
+ 380:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z19transmit_data_usarth>
+	}
+	while (ButtonValue > 35 && ButtonValue <= 105) {
+ 384:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <ButtonValue>
+ 388:	9c ed       	ldi	r25, 0xDC	; 220
+ 38a:	98 0f       	add	r25, r24
+ 38c:	96 34       	cpi	r25, 0x46	; 70
+ 38e:	c0 f4       	brcc	.+48     	; 0x3c0 <_Z18Check_Button_Valuei+0x76>
+		SonarValue = 15;
+ 390:	1f e0       	ldi	r17, 0x0F	; 15
+		transmit_data_usart(SonarValue);
+		
+		// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 392:	c0 ec       	ldi	r28, 0xC0	; 192
+ 394:	d0 e0       	ldi	r29, 0x00	; 0
+		ButtonValue = UDR0; // Read the data
+ 396:	0f 2e       	mov	r0, r31
+ 398:	f6 ec       	ldi	r31, 0xC6	; 198
+ 39a:	ef 2e       	mov	r14, r31
+ 39c:	f1 2c       	mov	r15, r1
+ 39e:	f0 2d       	mov	r31, r0
+		transmit_data_usart(SonarValue);
+		Wheel_Direction(local_counter);
+		transmit_data_usart(SonarValue);
+	}
+	while (ButtonValue > 35 && ButtonValue <= 105) {
+		SonarValue = 15;
+ 3a0:	10 93 03 01 	sts	0x0103, r17	; 0x800103 <SonarValue>
+		transmit_data_usart(SonarValue);
+ 3a4:	81 2f       	mov	r24, r17
+ 3a6:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z19transmit_data_usarth>
+		
+		// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 3aa:	88 81       	ld	r24, Y
+ 3ac:	88 23       	and	r24, r24
+ 3ae:	ec f7       	brge	.-6      	; 0x3aa <_Z18Check_Button_Valuei+0x60>
+		ButtonValue = UDR0; // Read the data
+ 3b0:	f7 01       	movw	r30, r14
+ 3b2:	80 81       	ld	r24, Z
+ 3b4:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+		SonarValue = 5;
+		transmit_data_usart(SonarValue);
+		Wheel_Direction(local_counter);
+		transmit_data_usart(SonarValue);
+	}
+	while (ButtonValue > 35 && ButtonValue <= 105) {
+ 3b8:	9c ed       	ldi	r25, 0xDC	; 220
+ 3ba:	98 0f       	add	r25, r24
+ 3bc:	96 34       	cpi	r25, 0x46	; 70
+ 3be:	80 f3       	brcs	.-32     	; 0x3a0 <_Z18Check_Button_Valuei+0x56>
+		
+		// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		ButtonValue = UDR0; // Read the data
+	}
+	if (ButtonValue > 105 && ButtonValue <= 175) {
+ 3c0:	8a 56       	subi	r24, 0x6A	; 106
+ 3c2:	86 34       	cpi	r24, 0x46	; 70
+ 3c4:	40 f4       	brcc	.+16     	; 0x3d6 <_Z18Check_Button_Valuei+0x8c>
+		SonarValue = 25;
+ 3c6:	89 e1       	ldi	r24, 0x19	; 25
+ 3c8:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+		transmit_data_usart(SonarValue);
+ 3cc:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z19transmit_data_usarth>
+		//wait_stepper(5000,2); // this is the wait for the lid to close
+		SonarValue = 5;
+ 3d0:	85 e0       	ldi	r24, 0x05	; 5
+ 3d2:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <SonarValue>
+	}
+	while (ButtonValue > 175) {
+ 3d6:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <ButtonValue>
+ 3da:	80 3b       	cpi	r24, 0xB0	; 176
+ 3dc:	b0 f0       	brcs	.+44     	; 0x40a <__LOCK_REGION_LENGTH__+0xa>
+		SonarValue = 35;
+ 3de:	13 e2       	ldi	r17, 0x23	; 35
+		transmit_data_usart(SonarValue);
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 3e0:	c0 ec       	ldi	r28, 0xC0	; 192
+ 3e2:	d0 e0       	ldi	r29, 0x00	; 0
+		ButtonValue = UDR0; // Read the data
+ 3e4:	0f 2e       	mov	r0, r31
+ 3e6:	f6 ec       	ldi	r31, 0xC6	; 198
+ 3e8:	ef 2e       	mov	r14, r31
+ 3ea:	f1 2c       	mov	r15, r1
+ 3ec:	f0 2d       	mov	r31, r0
+		transmit_data_usart(SonarValue);
+		//wait_stepper(5000,2); // this is the wait for the lid to close
+		SonarValue = 5;
+	}
+	while (ButtonValue > 175) {
+		SonarValue = 35;
+ 3ee:	10 93 03 01 	sts	0x0103, r17	; 0x800103 <SonarValue>
+		transmit_data_usart(SonarValue);
+ 3f2:	81 2f       	mov	r24, r17
+ 3f4:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z19transmit_data_usarth>
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 3f8:	88 81       	ld	r24, Y
+ 3fa:	88 23       	and	r24, r24
+ 3fc:	ec f7       	brge	.-6      	; 0x3f8 <_Z18Check_Button_Valuei+0xae>
+		ButtonValue = UDR0; // Read the data
+ 3fe:	f7 01       	movw	r30, r14
+ 400:	80 81       	ld	r24, Z
+ 402:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+		SonarValue = 25;
+		transmit_data_usart(SonarValue);
+		//wait_stepper(5000,2); // this is the wait for the lid to close
+		SonarValue = 5;
+	}
+	while (ButtonValue > 175) {
+ 406:	80 3b       	cpi	r24, 0xB0	; 176
+ 408:	90 f7       	brcc	.-28     	; 0x3ee <_Z18Check_Button_Valuei+0xa4>
+		transmit_data_usart(SonarValue);
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		ButtonValue = UDR0; // Read the data
+	}
+}
+ 40a:	df 91       	pop	r29
+ 40c:	cf 91       	pop	r28
+ 40e:	1f 91       	pop	r17
+ 410:	ff 90       	pop	r15
+ 412:	ef 90       	pop	r14
+ 414:	08 95       	ret
+
+00000416 <main>:
+int dir = 0;
+
+int main(void)
+{
+	// Initialize Data Registers
+	DDRD = 0b11110111;
+ 416:	87 ef       	ldi	r24, 0xF7	; 247
+ 418:	8a b9       	out	0x0a, r24	; 10
+	DDRC = 0b11111111;
+ 41a:	8f ef       	ldi	r24, 0xFF	; 255
+ 41c:	87 b9       	out	0x07, r24	; 7
+	PORTC = 0b00110000;
+ 41e:	80 e3       	ldi	r24, 0x30	; 48
+ 420:	88 b9       	out	0x08, r24	; 8
+	
+	EICRA = 0b00001000;
+ 422:	88 e0       	ldi	r24, 0x08	; 8
+ 424:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <__TEXT_REGION_LENGTH__+0x7e0069>
+	EIMSK = 1<<INT1;
+ 428:	82 e0       	ldi	r24, 0x02	; 2
+ 42a:	8d bb       	out	0x1d, r24	; 29
+	sei();
+ 42c:	78 94       	sei
+	
+	int local_counter = 0;
+    initialize_usart(); // Initialize the USART with desired parameters
+ 42e:	0e 94 48 00 	call	0x90	; 0x90 <_Z16initialize_usartv>
+	
+	EICRA = 0b00001000;
+	EIMSK = 1<<INT1;
+	sei();
+	
+	int local_counter = 0;
+ 432:	00 e0       	ldi	r16, 0x00	; 0
+ 434:	10 e0       	ldi	r17, 0x00	; 0
+    initialize_usart(); // Initialize the USART with desired parameters
+	while (1) 
+    {
+		transmit_data_usart(SonarValue);
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 436:	c0 ec       	ldi	r28, 0xC0	; 192
+ 438:	d0 e0       	ldi	r29, 0x00	; 0
+		ButtonValue = UDR0; // Read the data
+ 43a:	0f 2e       	mov	r0, r31
+ 43c:	f6 ec       	ldi	r31, 0xC6	; 198
+ 43e:	ef 2e       	mov	r14, r31
+ 440:	f1 2c       	mov	r15, r1
+ 442:	f0 2d       	mov	r31, r0
+			ButtonValue = UDR0; // Read the data
+			Check_Button_Value(local_counter);
+		}
+
+		for (int i = 0; i < 800; i++){
+			dir = 1;
+ 444:	cc 24       	eor	r12, r12
+ 446:	c3 94       	inc	r12
+ 448:	d1 2c       	mov	r13, r1
+	
+	int local_counter = 0;
+    initialize_usart(); // Initialize the USART with desired parameters
+	while (1) 
+    {
+		transmit_data_usart(SonarValue);
+ 44a:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <SonarValue>
+ 44e:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z19transmit_data_usarth>
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 452:	88 81       	ld	r24, Y
+ 454:	88 23       	and	r24, r24
+ 456:	ec f7       	brge	.-6      	; 0x452 <main+0x3c>
+		ButtonValue = UDR0; // Read the data
+ 458:	f7 01       	movw	r30, r14
+ 45a:	80 81       	ld	r24, Z
+ 45c:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+ 460:	0f 2e       	mov	r0, r31
+ 462:	f0 e2       	ldi	r31, 0x20	; 32
+ 464:	af 2e       	mov	r10, r31
+ 466:	f3 e0       	ldi	r31, 0x03	; 3
+ 468:	bf 2e       	mov	r11, r31
+ 46a:	f0 2d       	mov	r31, r0
+		for (int i = 0; i < 800; i++){
+			dir = 0;
+ 46c:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <_edata+0x1>
+ 470:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
+			// THIS IS TO GET THE STEPPER MOTOR TO PAN TO THE LEFT
+			local_counter = stepRight(local_counter);
+ 474:	c8 01       	movw	r24, r16
+ 476:	0e 94 ba 00 	call	0x174	; 0x174 <_Z9stepRighti>
+ 47a:	8c 01       	movw	r16, r24
+			counter = local_counter;
+ 47c:	90 93 05 01 	sts	0x0105, r25	; 0x800105 <counter+0x1>
+ 480:	80 93 04 01 	sts	0x0104, r24	; 0x800104 <counter>
+			
+			// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+			while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 484:	88 81       	ld	r24, Y
+ 486:	88 23       	and	r24, r24
+ 488:	ec f7       	brge	.-6      	; 0x484 <main+0x6e>
+			ButtonValue = UDR0; // Read the data
+ 48a:	f7 01       	movw	r30, r14
+ 48c:	80 81       	ld	r24, Z
+ 48e:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+			Check_Button_Value(local_counter);
+ 492:	c8 01       	movw	r24, r16
+ 494:	0e 94 a5 01 	call	0x34a	; 0x34a <_Z18Check_Button_Valuei>
+ 498:	f1 e0       	ldi	r31, 0x01	; 1
+ 49a:	af 1a       	sub	r10, r31
+ 49c:	b1 08       	sbc	r11, r1
+	while (1) 
+    {
+		transmit_data_usart(SonarValue);
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		ButtonValue = UDR0; // Read the data
+		for (int i = 0; i < 800; i++){
+ 49e:	31 f7       	brne	.-52     	; 0x46c <main+0x56>
+ 4a0:	0f 2e       	mov	r0, r31
+ 4a2:	f0 e2       	ldi	r31, 0x20	; 32
+ 4a4:	af 2e       	mov	r10, r31
+ 4a6:	f3 e0       	ldi	r31, 0x03	; 3
+ 4a8:	bf 2e       	mov	r11, r31
+ 4aa:	f0 2d       	mov	r31, r0
+			ButtonValue = UDR0; // Read the data
+			Check_Button_Value(local_counter);
+		}
+
+		for (int i = 0; i < 800; i++){
+			dir = 1;
+ 4ac:	d0 92 01 01 	sts	0x0101, r13	; 0x800101 <_edata+0x1>
+ 4b0:	c0 92 00 01 	sts	0x0100, r12	; 0x800100 <_edata>
+			// THIS IS TO GET THE STEPPER MOTOR TO PAN TO THE LEFT
+			local_counter = stepLeft(local_counter);
+ 4b4:	c8 01       	movw	r24, r16
+ 4b6:	0e 94 db 00 	call	0x1b6	; 0x1b6 <_Z8stepLefti>
+ 4ba:	8c 01       	movw	r16, r24
+			counter = local_counter;
+ 4bc:	90 93 05 01 	sts	0x0105, r25	; 0x800105 <counter+0x1>
+ 4c0:	80 93 04 01 	sts	0x0104, r24	; 0x800104 <counter>
+			
+			// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+			while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 4c4:	88 81       	ld	r24, Y
+ 4c6:	88 23       	and	r24, r24
+ 4c8:	ec f7       	brge	.-6      	; 0x4c4 <main+0xae>
+			ButtonValue = UDR0; // Read the data
+ 4ca:	f7 01       	movw	r30, r14
+ 4cc:	80 81       	ld	r24, Z
+ 4ce:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+			Check_Button_Value(local_counter);
+ 4d2:	c8 01       	movw	r24, r16
+ 4d4:	0e 94 a5 01 	call	0x34a	; 0x34a <_Z18Check_Button_Valuei>
+ 4d8:	f1 e0       	ldi	r31, 0x01	; 1
+ 4da:	af 1a       	sub	r10, r31
+ 4dc:	b1 08       	sbc	r11, r1
+			while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+			ButtonValue = UDR0; // Read the data
+			Check_Button_Value(local_counter);
+		}
+
+		for (int i = 0; i < 800; i++){
+ 4de:	31 f7       	brne	.-52     	; 0x4ac <main+0x96>
+ 4e0:	b4 cf       	rjmp	.-152    	; 0x44a <main+0x34>
+
+000004e2 <__vector_2>:
+			Check_Button_Value(local_counter);
+		}
+    }
+}
+
+ISR(INT1_vect) {
+ 4e2:	1f 92       	push	r1
+ 4e4:	0f 92       	push	r0
+ 4e6:	0f b6       	in	r0, 0x3f	; 63
+ 4e8:	0f 92       	push	r0
+ 4ea:	11 24       	eor	r1, r1
+ 4ec:	2f 93       	push	r18
+ 4ee:	3f 93       	push	r19
+ 4f0:	4f 93       	push	r20
+ 4f2:	5f 93       	push	r21
+ 4f4:	6f 93       	push	r22
+ 4f6:	7f 93       	push	r23
+ 4f8:	8f 93       	push	r24
+ 4fa:	9f 93       	push	r25
+ 4fc:	af 93       	push	r26
+ 4fe:	bf 93       	push	r27
+ 500:	ef 93       	push	r30
+ 502:	ff 93       	push	r31
+	while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 504:	e0 ec       	ldi	r30, 0xC0	; 192
+ 506:	f0 e0       	ldi	r31, 0x00	; 0
+ 508:	80 81       	ld	r24, Z
+ 50a:	88 23       	and	r24, r24
+ 50c:	ec f7       	brge	.-6      	; 0x508 <__vector_2+0x26>
+	ButtonValue = UDR0; // Read the data
+ 50e:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+ 512:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <ButtonValue>
+	
+	Check_Button_Value(counter);
+ 516:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <counter>
+ 51a:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <counter+0x1>
+ 51e:	0e 94 a5 01 	call	0x34a	; 0x34a <_Z18Check_Button_Valuei>
+	transmit_data_usart(SonarValue);
+ 522:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <SonarValue>
+ 526:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z19transmit_data_usarth>
+	wait(1000,2);	
+ 52a:	62 e0       	ldi	r22, 0x02	; 2
+ 52c:	88 ee       	ldi	r24, 0xE8	; 232
+ 52e:	93 e0       	ldi	r25, 0x03	; 3
+ 530:	0e 94 93 00 	call	0x126	; 0x126 <_Z4waitic>
+		
+	EIFR = EIFR | 1<<INTF1;
+ 534:	e1 9a       	sbi	0x1c, 1	; 28
+}
+ 536:	ff 91       	pop	r31
+ 538:	ef 91       	pop	r30
+ 53a:	bf 91       	pop	r27
+ 53c:	af 91       	pop	r26
+ 53e:	9f 91       	pop	r25
+ 540:	8f 91       	pop	r24
+ 542:	7f 91       	pop	r23
+ 544:	6f 91       	pop	r22
+ 546:	5f 91       	pop	r21
+ 548:	4f 91       	pop	r20
+ 54a:	3f 91       	pop	r19
+ 54c:	2f 91       	pop	r18
+ 54e:	0f 90       	pop	r0
+ 550:	0f be       	out	0x3f, r0	; 63
+ 552:	0f 90       	pop	r0
+ 554:	1f 90       	pop	r1
+ 556:	18 95       	reti
+
+00000558 <_exit>:
+ 558:	f8 94       	cli
+
+0000055a <__stop_program>:
+ 55a:	ff cf       	rjmp	.-2      	; 0x55a <__stop_program>

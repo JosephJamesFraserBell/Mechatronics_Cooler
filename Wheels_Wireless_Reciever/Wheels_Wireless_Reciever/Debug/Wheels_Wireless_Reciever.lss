@@ -1,0 +1,449 @@
+
+Wheels_Wireless_Reciever.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  00000288  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000214  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000001  00800100  00800100  00000288  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000288  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002b8  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000048  00000000  00000000  000002f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000775  00000000  00000000  00000340  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000066c  00000000  00000000  00000ab5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000003f4  00000000  00000000  00001121  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000094  00000000  00000000  00001518  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000459  00000000  00000000  000015ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000103  00000000  00000000  00001a05  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000038  00000000  00000000  00001b08  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   8:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  14:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  18:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  1c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  20:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  24:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  28:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  2c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  30:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  34:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  38:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  44:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  48:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  54:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  58:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  5c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  60:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_clear_bss>:
+  74:	21 e0       	ldi	r18, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	01 c0       	rjmp	.+2      	; 0x7e <.do_clear_bss_start>
+
+0000007c <.do_clear_bss_loop>:
+  7c:	1d 92       	st	X+, r1
+
+0000007e <.do_clear_bss_start>:
+  7e:	a1 30       	cpi	r26, 0x01	; 1
+  80:	b2 07       	cpc	r27, r18
+  82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
+  84:	0e 94 e9 00 	call	0x1d2	; 0x1d2 <main>
+  88:	0c 94 08 01 	jmp	0x210	; 0x210 <_exit>
+
+0000008c <__bad_interrupt>:
+  8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000090 <_Z16initialize_usartv>:
+		delay_T_msec_timer1(time_choice);
+		if (Value > 32)
+			multiple = 0;
+		multiple--;
+	}
+}
+  90:	80 e1       	ldi	r24, 0x10	; 16
+  92:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7e00c1>
+  96:	86 e0       	ldi	r24, 0x06	; 6
+  98:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7e00c2>
+  9c:	87 e6       	ldi	r24, 0x67	; 103
+  9e:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7e00c4>
+  a2:	08 95       	ret
+
+000000a4 <_Z15Check_Directionv>:
+	}
+	
+}
+
+void Check_Direction() {
+	while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+  a4:	e0 ec       	ldi	r30, 0xC0	; 192
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	80 81       	ld	r24, Z
+  aa:	88 23       	and	r24, r24
+  ac:	ec f7       	brge	.-6      	; 0xa8 <_Z15Check_Directionv+0x4>
+	Value = UDR0; // Read the data
+  ae:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+  b2:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+	/*while(PINC & (1<<PORTC5)){
+		OCR0A = 0;
+		OCR0B = 0;
+	}*/
+	if( Value < 90 ){
+  b6:	8a 35       	cpi	r24, 0x5A	; 90
+  b8:	68 f4       	brcc	.+26     	; 0xd4 <_Z15Check_Directionv+0x30>
+		
+		OCR0A = 200;
+  ba:	88 ec       	ldi	r24, 0xC8	; 200
+  bc:	87 bd       	out	0x27, r24	; 39
+		OCR0B = 0;
+  be:	18 bc       	out	0x28, r1	; 40
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+  c0:	e0 ec       	ldi	r30, 0xC0	; 192
+  c2:	f0 e0       	ldi	r31, 0x00	; 0
+  c4:	80 81       	ld	r24, Z
+  c6:	88 23       	and	r24, r24
+  c8:	ec f7       	brge	.-6      	; 0xc4 <_Z15Check_Directionv+0x20>
+		Value = UDR0; // Read the data
+  ca:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+  ce:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+  d2:	08 95       	ret
+	}
+	else if( Value > 90 && Value <= 170 ){
+  d4:	95 ea       	ldi	r25, 0xA5	; 165
+  d6:	98 0f       	add	r25, r24
+  d8:	90 35       	cpi	r25, 0x50	; 80
+  da:	68 f4       	brcc	.+26     	; 0xf6 <_Z15Check_Directionv+0x52>
+		
+		OCR0A = 200;
+  dc:	88 ec       	ldi	r24, 0xC8	; 200
+  de:	87 bd       	out	0x27, r24	; 39
+		OCR0B = 200;
+  e0:	88 bd       	out	0x28, r24	; 40
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+  e2:	e0 ec       	ldi	r30, 0xC0	; 192
+  e4:	f0 e0       	ldi	r31, 0x00	; 0
+  e6:	80 81       	ld	r24, Z
+  e8:	88 23       	and	r24, r24
+  ea:	ec f7       	brge	.-6      	; 0xe6 <_Z15Check_Directionv+0x42>
+		Value = UDR0; // Read the data
+  ec:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+  f0:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+  f4:	08 95       	ret
+	}
+	else if( Value > 170  ){
+  f6:	8b 3a       	cpi	r24, 0xAB	; 171
+  f8:	60 f0       	brcs	.+24     	; 0x112 <_Z15Check_Directionv+0x6e>
+		
+		OCR0A = 0;
+  fa:	17 bc       	out	0x27, r1	; 39
+		OCR0B = 200;
+  fc:	88 ec       	ldi	r24, 0xC8	; 200
+  fe:	88 bd       	out	0x28, r24	; 40
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 100:	e0 ec       	ldi	r30, 0xC0	; 192
+ 102:	f0 e0       	ldi	r31, 0x00	; 0
+ 104:	80 81       	ld	r24, Z
+ 106:	88 23       	and	r24, r24
+ 108:	ec f7       	brge	.-6      	; 0x104 <_Z15Check_Directionv+0x60>
+		Value = UDR0; // Read the data
+ 10a:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+ 10e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+ 112:	08 95       	ret
+
+00000114 <_Z18Check_Button_Valuev>:
+	//is cleared by writing a 1 to it)
+
+} // end delay_T_msec_timer1()
+
+void Check_Button_Value() {
+	while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 114:	e0 ec       	ldi	r30, 0xC0	; 192
+ 116:	f0 e0       	ldi	r31, 0x00	; 0
+ 118:	80 81       	ld	r24, Z
+ 11a:	88 23       	and	r24, r24
+ 11c:	ec f7       	brge	.-6      	; 0x118 <_Z18Check_Button_Valuev+0x4>
+	Value = UDR0; // Read the data
+ 11e:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+ 122:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+	
+	if (Value <= 10){
+ 126:	8b 30       	cpi	r24, 0x0B	; 11
+ 128:	98 f4       	brcc	.+38     	; 0x150 <_Z18Check_Button_Valuev+0x3c>
+		//OCR0A = 200;
+		//OCR0B = 200;
+		while(PINC == 0b00000001){
+ 12a:	86 b1       	in	r24, 0x06	; 6
+ 12c:	81 30       	cpi	r24, 0x01	; 1
+ 12e:	29 f4       	brne	.+10     	; 0x13a <_Z18Check_Button_Valuev+0x26>
+			OCR0A = 0;
+ 130:	17 bc       	out	0x27, r1	; 39
+			OCR0B = 0;
+ 132:	18 bc       	out	0x28, r1	; 40
+	Value = UDR0; // Read the data
+	
+	if (Value <= 10){
+		//OCR0A = 200;
+		//OCR0B = 200;
+		while(PINC == 0b00000001){
+ 134:	86 b1       	in	r24, 0x06	; 6
+ 136:	81 30       	cpi	r24, 0x01	; 1
+ 138:	d9 f3       	breq	.-10     	; 0x130 <_Z18Check_Button_Valuev+0x1c>
+			OCR0A = 0;
+			OCR0B = 0;
+		}
+		Check_Direction();
+ 13a:	0e 94 52 00 	call	0xa4	; 0xa4 <_Z15Check_Directionv>
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 13e:	e0 ec       	ldi	r30, 0xC0	; 192
+ 140:	f0 e0       	ldi	r31, 0x00	; 0
+ 142:	80 81       	ld	r24, Z
+ 144:	88 23       	and	r24, r24
+ 146:	ec f7       	brge	.-6      	; 0x142 <_Z18Check_Button_Valuev+0x2e>
+		Value = UDR0; // Read the data
+ 148:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+ 14c:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+	}
+	while (Value > 11 && Value <= 20) {
+ 150:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 154:	8c 50       	subi	r24, 0x0C	; 12
+ 156:	89 30       	cpi	r24, 0x09	; 9
+ 158:	50 f0       	brcs	.+20     	; 0x16e <_Z18Check_Button_Valuev+0x5a>
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+		
+	}
+	while (Value > 21 && Value <= 30) {
+ 15a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 15e:	86 51       	subi	r24, 0x16	; 22
+ 160:	89 30       	cpi	r24, 0x09	; 9
+ 162:	a8 f4       	brcc	.+42     	; 0x18e <_Z18Check_Button_Valuev+0x7a>
+		OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
+		OCR0B = 0;
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 164:	e0 ec       	ldi	r30, 0xC0	; 192
+ 166:	f0 e0       	ldi	r31, 0x00	; 0
+		Value = UDR0; // Read the data
+ 168:	a6 ec       	ldi	r26, 0xC6	; 198
+ 16a:	b0 e0       	ldi	r27, 0x00	; 0
+ 16c:	1a c0       	rjmp	.+52     	; 0x1a2 <_Z18Check_Button_Valuev+0x8e>
+	while (Value > 11 && Value <= 20) {
+		// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+		OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
+		OCR0B = 0;
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 16e:	e0 ec       	ldi	r30, 0xC0	; 192
+ 170:	f0 e0       	ldi	r31, 0x00	; 0
+		Value = UDR0; // Read the data
+ 172:	a6 ec       	ldi	r26, 0xC6	; 198
+ 174:	b0 e0       	ldi	r27, 0x00	; 0
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+	}
+	while (Value > 11 && Value <= 20) {
+		// READ THE VALUES FROM THE WIRELESS TRANSMITTER
+		OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
+ 176:	17 bc       	out	0x27, r1	; 39
+		OCR0B = 0;
+ 178:	18 bc       	out	0x28, r1	; 40
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 17a:	80 81       	ld	r24, Z
+ 17c:	88 23       	and	r24, r24
+ 17e:	ec f7       	brge	.-6      	; 0x17a <_Z18Check_Button_Valuev+0x66>
+		Value = UDR0; // Read the data
+ 180:	8c 91       	ld	r24, X
+ 182:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+		}
+		Check_Direction();
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+	}
+	while (Value > 11 && Value <= 20) {
+ 186:	8c 50       	subi	r24, 0x0C	; 12
+ 188:	89 30       	cpi	r24, 0x09	; 9
+ 18a:	a8 f3       	brcs	.-22     	; 0x176 <_Z18Check_Button_Valuev+0x62>
+ 18c:	e6 cf       	rjmp	.-52     	; 0x15a <_Z18Check_Button_Valuev+0x46>
+		OCR0B = 0;
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+	}
+	while (Value > 31 && Value <= 40) {
+ 18e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 192:	80 52       	subi	r24, 0x20	; 32
+ 194:	89 30       	cpi	r24, 0x09	; 9
+ 196:	e0 f4       	brcc	.+56     	; 0x1d0 <_Z18Check_Button_Valuev+0xbc>
+		OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
+		OCR0B = 0;
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 198:	e0 ec       	ldi	r30, 0xC0	; 192
+ 19a:	f0 e0       	ldi	r31, 0x00	; 0
+		Value = UDR0; // Read the data
+ 19c:	a6 ec       	ldi	r26, 0xC6	; 198
+ 19e:	b0 e0       	ldi	r27, 0x00	; 0
+ 1a0:	0c c0       	rjmp	.+24     	; 0x1ba <_Z18Check_Button_Valuev+0xa6>
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+		
+	}
+	while (Value > 21 && Value <= 30) {
+		OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
+ 1a2:	17 bc       	out	0x27, r1	; 39
+		OCR0B = 0;
+ 1a4:	18 bc       	out	0x28, r1	; 40
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 1a6:	80 81       	ld	r24, Z
+ 1a8:	88 23       	and	r24, r24
+ 1aa:	ec f7       	brge	.-6      	; 0x1a6 <_Z18Check_Button_Valuev+0x92>
+		Value = UDR0; // Read the data
+ 1ac:	8c 91       	ld	r24, X
+ 1ae:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+		
+	}
+	while (Value > 21 && Value <= 30) {
+ 1b2:	86 51       	subi	r24, 0x16	; 22
+ 1b4:	89 30       	cpi	r24, 0x09	; 9
+ 1b6:	a8 f3       	brcs	.-22     	; 0x1a2 <_Z18Check_Button_Valuev+0x8e>
+ 1b8:	ea cf       	rjmp	.-44     	; 0x18e <_Z18Check_Button_Valuev+0x7a>
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+	}
+	while (Value > 31 && Value <= 40) {
+		OCR0A = 0;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
+ 1ba:	17 bc       	out	0x27, r1	; 39
+		OCR0B = 0;
+ 1bc:	18 bc       	out	0x28, r1	; 40
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 1be:	80 81       	ld	r24, Z
+ 1c0:	88 23       	and	r24, r24
+ 1c2:	ec f7       	brge	.-6      	; 0x1be <_Z18Check_Button_Valuev+0xaa>
+		Value = UDR0; // Read the data
+ 1c4:	8c 91       	ld	r24, X
+ 1c6:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+		OCR0B = 0;
+		
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+		Value = UDR0; // Read the data
+	}
+	while (Value > 31 && Value <= 40) {
+ 1ca:	80 52       	subi	r24, 0x20	; 32
+ 1cc:	89 30       	cpi	r24, 0x09	; 9
+ 1ce:	a8 f3       	brcs	.-22     	; 0x1ba <_Z18Check_Button_Valuev+0xa6>
+ 1d0:	08 95       	ret
+
+000001d2 <main>:
+
+unsigned char Value;
+
+int main(void)
+{
+	DDRC = 0b00000000;
+ 1d2:	17 b8       	out	0x07, r1	; 7
+    DDRD = 0b11110011;
+ 1d4:	83 ef       	ldi	r24, 0xF3	; 243
+ 1d6:	8a b9       	out	0x0a, r24	; 10
+	PORTD = 0b11110011;
+ 1d8:	8b b9       	out	0x0b, r24	; 11
+	DDRB = 0b11111111;
+ 1da:	8f ef       	ldi	r24, 0xFF	; 255
+ 1dc:	84 b9       	out	0x04, r24	; 4
+	PORTB = 0b00000011;
+ 1de:	83 e0       	ldi	r24, 0x03	; 3
+ 1e0:	85 b9       	out	0x05, r24	; 5
+	PORTC = 0b00000000;
+ 1e2:	18 b8       	out	0x08, r1	; 8
+	// MOTOR STUFF
+	OCR0A = 200;       // Load $00 into OCR0 to set initial duty cycle to 0 (motor off)
+ 1e4:	98 ec       	ldi	r25, 0xC8	; 200
+ 1e6:	97 bd       	out	0x27, r25	; 39
+	OCR0B = 200;
+ 1e8:	98 bd       	out	0x28, r25	; 40
+	TCCR0A = 1<<COM0A1 | 0<<COM0A0  | 1<<COM0B1 | 0<<COM0B0 | 1<<WGM01 | 1<<WGM00;      // Set non-inverting mode on OC0A pin (COMA1:0 = 10; Fast PWM (WGM1:0 bits = bits 1:0 = 11) (Note that we are not affecting OC0B because COMB0:1 bits stay at default = 00)
+ 1ea:	93 ea       	ldi	r25, 0xA3	; 163
+ 1ec:	94 bd       	out	0x24, r25	; 36
+	TCCR0B = 0<<CS02 | 1<<CS01 | 1<<CS00; // Set base PWM frequency (CS02:0 - bits 2-0 = 011 for prescaler of 64, for approximately 1kHz base frequency)
+ 1ee:	85 bd       	out	0x25, r24	; 37
+	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
+
+	initialize_usart(); // Initialize the USART with desired parameters
+ 1f0:	0e 94 48 00 	call	0x90	; 0x90 <_Z16initialize_usartv>
+    while (1) 
+    {
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 1f4:	c0 ec       	ldi	r28, 0xC0	; 192
+ 1f6:	d0 e0       	ldi	r29, 0x00	; 0
+		Value = UDR0; // Read the data
+ 1f8:	06 ec       	ldi	r16, 0xC6	; 198
+ 1fa:	10 e0       	ldi	r17, 0x00	; 0
+	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
+
+	initialize_usart(); // Initialize the USART with desired parameters
+    while (1) 
+    {
+		while (! (UCSR0A & (1<<RXC0))); // Wait until new data arrives
+ 1fc:	88 81       	ld	r24, Y
+ 1fe:	88 23       	and	r24, r24
+ 200:	ec f7       	brge	.-6      	; 0x1fc <main+0x2a>
+		Value = UDR0; // Read the data
+ 202:	f8 01       	movw	r30, r16
+ 204:	80 81       	ld	r24, Z
+ 206:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+		
+		Check_Button_Value();
+ 20a:	0e 94 8a 00 	call	0x114	; 0x114 <_Z18Check_Button_Valuev>
+	TCCR0A = 1<<COM0A1 | 0<<COM0A0  | 1<<COM0B1 | 0<<COM0B0 | 1<<WGM01 | 1<<WGM00;      // Set non-inverting mode on OC0A pin (COMA1:0 = 10; Fast PWM (WGM1:0 bits = bits 1:0 = 11) (Note that we are not affecting OC0B because COMB0:1 bits stay at default = 00)
+	TCCR0B = 0<<CS02 | 1<<CS01 | 1<<CS00; // Set base PWM frequency (CS02:0 - bits 2-0 = 011 for prescaler of 64, for approximately 1kHz base frequency)
+	// PWM is now running on selected pin at selected base frequency.  Duty cycle is set by loading/changing value in OCR0A register.
+
+	initialize_usart(); // Initialize the USART with desired parameters
+    while (1) 
+ 20e:	f6 cf       	rjmp	.-20     	; 0x1fc <main+0x2a>
+
+00000210 <_exit>:
+ 210:	f8 94       	cli
+
+00000212 <__stop_program>:
+ 212:	ff cf       	rjmp	.-2      	; 0x212 <__stop_program>
